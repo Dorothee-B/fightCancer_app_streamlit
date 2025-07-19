@@ -38,7 +38,7 @@ pip install -r requirements.txt
 
 ## 🚀 Deployment
 This app is deployed on Streamlit Cloud and can be accessed at:
-https://share.streamlit.io/Dorothee-B/fightCancer_app_streamlit/main/appli.py
+https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/
 
 📂 Project Structure
 ```bash
