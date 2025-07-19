@@ -375,7 +375,7 @@ if st.session_state.form_submitted:
 
         if score <= 20 :
             st.success(f"**Félicitations {nom} !** ton score de risque est faible. Cela suggère que vos habitudes actuelles sont globalement favorables à une bonne santé. Continuez à prendre soin de vous et à maintenir ces pratiques saines")
-            st.image("images/smile.png", caption="Continuez sur cette voie de bien-être !")
+            st.image("images/Smile.png", caption="Continuez sur cette voie de bien-être !")
         elif score <= 38 :
             st.warning(f"**Attention {nom},** ton score indique un risque modéré. Ce n'est pas une fatalité, mais un signal pour envisager quelques ajustements dans votre mode de vie. De petits changements peuvent faire une grande différence pour votre bien-être futur. Nous vous encourageons à explorer les facteurs qui pourraient contribuer à ce risque et à discuter de ces points avec un professionnel de la santé.")
             st.image("images/soso_smiley.png", caption="De petits pas peuvent mener à de grands changements.")
