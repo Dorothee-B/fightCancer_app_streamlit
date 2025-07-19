@@ -1,8 +1,8 @@
 # fightCancer_app_streamlit
 
-Une application ** Streamlit interactive ** permettant d’évaluer le **risque de développer un cancer** à partir des habitudes de vie et des données personnelles de santé. 
+Une application **Streamlit interactive** permettant d’évaluer le **risque de développer un cancer** à partir des habitudes de vie et des données personnelles de santé. 
 
-Le modèle utilise un classifieur **Random Forest**  entraîné avec un ** ré-échantillonnage et correctif SMOTE ** pour corriger le déséquilibrer des classes.
+Le modèle utilise un classifieur **Random Forest**  entraîné avec un **ré-échantillonnage et correctif SMOTE** pour corriger le déséquilibrer des classes.
 
 
 ## Fonctionnalités
@@ -18,28 +18,31 @@ Le modèle utilise un classifieur **Random Forest**  entraîné avec un ** ré-�
 ## Installation
 
 1. Cloner ce dépôt :
-
 ```bash
 git clone https://github.com/Dorothee-B/fightCancer_app_streamlit.git
 cd fightCancer_app_streamlit
+```
 
 2. Créer un environnement virtuel (optionnel mais recommandé) :
-
+```bash
 python -m venv venv
 source venv/bin/activate   # macOS / Linux
 venv\Scripts\activate      # Windows
+```
 
 3. Installer les dépendances :
-
+```bash
 pip install -r requirements.txt
- 
+```
+
+
 ## Déplpoiement 
 L’application est déployée sur Streamlit Cloud et accessible à l’adresse :
 https://share.streamlit.io/Dorothee-B/fightCancer_app_streamlit/main/appli.py
 
 
 ##  📂 Structure du projet
-
+```bash
 fightCancer_app_streamlit/
 │
 ├── Cancer_app_smote_resample_rf.py  # Script principal Streamlit
@@ -48,11 +51,11 @@ fightCancer_app_streamlit/
 ├── images/                     # Dossier des images (smiley, logos)
 ├── data/                       # dataset, features_importance.txt
 └── README.md                   # Ce fichier
-
+```
 
 ## Jeu de données
 
-Cette application repose sur les données de l’enquête **HINTS 7 (2024)  ** (*Health Information National Trends Survey*), composé de 77 questions et réalisée par le **National Cancer Institute (NCI)** aux États-Unis.
+Cette application repose sur les données de l’enquête **HINTS 7 (2024)** (*Health Information National Trends Survey*), composé de 77 questions et réalisée par le **National Cancer Institute (NCI)** aux États-Unis.
 
 - **Période de collecte** : mars à septembre 2024
 - **Modes de réponse** : papier et en ligne, avec incitations financières ($2 + $10)
