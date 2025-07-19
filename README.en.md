@@ -70,10 +70,10 @@ The data were cleaned and **balanced** using **SMOTE**, then a **Random Forest**
 ⚠️ This tool is **not a medical diagnostic**, but a predictive aid based on self-reported data. **Always consult a healthcare professional for medical concerns**.
 
 ## Authors
-Aassyiah B.
+Aasiyah B.
 Dorothée B.
 
 ## Contact
 For questions or feedback, feel free to reach out:
 Dorothée B. – busierdorothee@gmail.com
-Aassyiah B.
+Aasiyah B.

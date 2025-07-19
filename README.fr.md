@@ -79,10 +79,10 @@ Avant entraînement du modèle, les données ont été sélectionées, nettoyée
 ---
 
 ## Auteurs 
-Aassyiah B.
+Aasiyah B.
 Dorothée B.
 
 ## Contacts
 Pour toute question ou suggestion, n’hésitez pas à me contacter : 
 Dorothée B. - busierdorothee@gmail.com
-Aasyiah B.
+Aasiyah B.
