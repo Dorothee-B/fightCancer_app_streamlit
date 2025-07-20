@@ -1,4 +1,4 @@
-# Script d'entraînement du Random Forest pour l'application Streamlit de détection du cancer
+# Random Forest training script for the Streamlit cancer risk detection application
 
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -11,31 +11,32 @@ import os
 from sklearn.metrics import accuracy_score, classification_report
 import matplotlib.pyplot as plt
 
-# Importer SMOTE pour le rééchantillonnage
-from imblearn.over_sampling import SMOTE # NÉCESSITE: pip install imbalanced-learn!! il faudrait le rajouter sur le fichier requirements txt 
+# SMOTE importation for resampling
+from imblearn.over_sampling import SMOTE # to do: pip install imbalanced-learn!!
 from imblearn.pipeline import Pipeline
-# Charger les données
+# data
 try:
     df = pd.read_csv('data/df2.csv')
 except FileNotFoundError:
     print("Erreur: Le fichier 'df2.csv' n'a pas été trouvé. Veuillez vous assurer qu'il est dans le même répertoire.")
     exit()
 
-cancer_oui= df[df['EverHadCancer'] == 1]  # Filtrer les lignes des personnes qui ONT le cancer
+cancer_oui= df[df['EverHadCancer'] == 1]  # people who had cancer
 cancer_non = df[df['EverHadCancer'] == 0]
 
-# Sous-échantillonner le groupe avec 1073 lignes, df[df['EverHadCancer'] == 1]  # Filtrer(personnes qui ont un Cancer dans le fichier de base)
+# manual resampling to balance classes , 1073 = df[df['EverHadCancer'] == 1
 resample_cancer_oui = cancer_oui.sample(n=1073, random_state=142)
 resample_cancer_non = cancer_non.sample(n=1073, random_state=142)
 
-# Combiner les deux sous-échantillons
+# Combine the two subsamples
 balanced_df = pd.concat([resample_cancer_oui, resample_cancer_non])
 
-# Mélanger les lignes pour éviter l'ordre
+
+# Shuffle lines to avoid order
 balanced_df = balanced_df.sample(frac=1, random_state=142).reset_index(drop=True)
 print(balanced_df['EverHadCancer'].value_counts())
 
-# Variables (définies selon l'ordre logique pour le preprocessor)
+# Variables (defined in logical order for the preprocessor)
 binary_vars = [
     'CutSkipMeals2',
     'DiffPayMedBills', 'SmokeNow',
@@ -46,7 +47,7 @@ ordinal_categorical_vars = [
     'GeneralHealth', 'HealthLimits_Pain', 'Nervous',
     'IncomeRanges', 'Education'
 ]
-string_categorical_vars = ['Birthcountry']  # La variable qui sera one-hot encodée
+string_categorical_vars = ['Birthcountry']  # One hot encoder
 
 continuous_vars = [
     'Fruit2', 'Vegetables2', 'TimesStrengthTraining', 'Drink_nb_PerMonth',
@@ -55,18 +56,24 @@ continuous_vars = [
 
 target = 'EverHadCancer'
 
-# Features utilisées pour l'entraînement (avant toute transformation)
-# Cet ordre correspond à l'ordre des colonnes du DataFrame X d'entrée
+
+# Features used for training (before any transformation)
+# This order corresponds to the column order of the input DataFrame X
+
 features_raw = binary_vars + ordinal_categorical_vars + string_categorical_vars + continuous_vars
 
-df_clean = balanced_df[features_raw + [target]].dropna() # Assurez-vous que toutes les colonnes existent et qu'il n'y a pas de NaN pour ces features
+df_clean = balanced_df[features_raw + [target]].dropna()
 
 X = df_clean[features_raw]
 y = df_clean[target]
 
-# Préprocesseur avec ColumnTransformer
-# L'ordre des transformations ici DÉFINIT l'ordre de sortie des features dans le pipeline
-# et donc l'ordre attendu par le modèle final.
+
+
+# Preprocessor with ColumnTransformer
+# The order of transformations here defines the output order of features in the pipeline
+# and therefore the order expected by the final model
+
+
 transformers = [
     ('ord', OrdinalEncoder(), ordinal_categorical_vars),
     ('ohe', OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore'), string_categorical_vars),
@@ -75,30 +82,37 @@ transformers = [
 
 preprocessor = ColumnTransformer(
     transformers=transformers,
-    remainder='passthrough'  # les variables binaires passent sans transformation
+    remainder='passthrough'  # binary variables pass without transformation
 )
 
-# Créer le pipeline complet, y compris SMOTE
-# SMOTE est appliqué APRÈS le préprocesseur mais AVANT le classificateur.
+
+
+# Create the complete pipeline, including SMOTE
+# SMOTE is applied AFTER the preprocessor but BEFORE the classifier
+
 pipeline = Pipeline([
     ('preprocess', preprocessor),
-    ('smote', SMOTE(random_state=142)), # Ajout de l'étape SMOTE
+    ('smote', SMOTE(random_state=142)), # SMOTE
     ('model', RandomForestClassifier(n_estimators=100, random_state=142))
 ])
 
-# Split des données et entraînement
-# Le pipeline entier, y compris preprocessing et SMOTE, sera appliqué sur X_train.
+# Split et train
+# The entire pipeline, including preprocessing and SMOTE, will be applied to X_train
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=142)
 pipeline.fit(X_train, y_train)
 
-# Évaluation du modèle
+# model evaluation
 y_pred = pipeline.predict(X_test)
 print("Accuracy:", accuracy_score(y_test, y_pred))
 print("\nClassification Report:\n", classification_report(y_test, y_pred))
 
-# --- Récupération des noms de features FINAUX après preprocessing pour les enregistrer ---
-# L'ordre est crucial et doit correspondre à l'ordre du ColumnTransformer.
-# SMOTE ne change pas le nom des features, donc cette logique reste la même.
+
+# --- Retrieving the final feature names after preprocessing to save them ---
+# The order is crucial and must match the ColumnTransformer order
+# SMOTE doesn't change the feature names, so this logic remains the same
+
+
 # 1. Features ordinales
 ord_features = ordinal_categorical_vars
 
@@ -110,10 +124,10 @@ ohe_features = list(ohe_transformer.get_feature_names_out(string_categorical_var
 # 3. Features continues
 cont_features = continuous_vars
 
-# 4. Features binaires (passées directement, 'remainder' du ColumnTransformer)
+# 4. Binary Features (passed directly, 'remainder' of the ColumnTransformer)
 bin_features = binary_vars
 
-# L'ordre des features dans la matrice finale (cet ordre doit être respecté par l'application)
+# # The order of the features in the final matrix (this order must be respected by the application)
 final_feature_names_for_model_input = (
     ord_features +
     ohe_features +
@@ -121,11 +135,12 @@ final_feature_names_for_model_input = (
     bin_features
 )
 
-# Calcul des importances des features (peut être affecté par SMOTE, mais la logique reste la même)
+# Features importance
 try:
-    # Récupérer le classificateur après SMOTE et preprocessing
+    
+    # Retrieve the classifier after SMOTE and preprocessing
     model_trained = pipeline.named_steps['model']
-    # Si le modèle est un RandomForestClassifier, il aura feature_importances_
+    # RandomForestClassifier, il aura feature_importances_
     if hasattr(model_trained, 'feature_importances_'):
         importances = model_trained.feature_importances_
         importance_df = pd.DataFrame({
@@ -133,7 +148,7 @@ try:
             'Importance': importances
         }).sort_values(by='Importance', ascending=False)
         
-        # Visualisation Top 20
+        # Visualization Top 20
         top_20 = importance_df.head(20)
         plt.figure(figsize=(12, 10))
         plt.barh(top_20['Variable'][::-1], top_20['Importance'][::-1], color='teal')
@@ -149,16 +164,16 @@ except Exception as e:
     print(f"Erreur lors du calcul/affichage des importances des features: {e}")
 
 
-# Sauvegarde du pipeline entraîné (incluant preprocessing et SMOTE)
+# Save the train pipeline (including preprocessing and SMOTE)
 joblib.dump(pipeline, "modele_cancer_resample_rf.pkl")
 print("Pipeline entraîné (avec SMOTE) sauvegardé sous 'modele_cancer_resample_rf.pkl'")
 
-# Sauvegarde des importances (facultatif)
+# Save features importance (optional)
 if 'importance_df' in locals():
     importance_df.to_csv("data/importances_cancer_resample_rf.csv", index=False)
     print("Importances des features sauvegardées sous 'data/importances_cancer_resample_rf.csv'")
 
-# Sauvegarde des noms de features FINALES (crucial pour l'application Streamlit)
+# Save final features name (important for streamlit app)
 with open("data/features_cancer_resample_rf.txt", "w") as f:
     for feature in final_feature_names_for_model_input:
         f.write(feature + "\n")
