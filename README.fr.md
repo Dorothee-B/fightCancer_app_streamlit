@@ -91,18 +91,14 @@ L’algorithme de prédiction repose sur un **Random Forest Classifier**, sélec
   - Le modèle **Random Forest** a été retenu pour son bon compromis entre **performance**, **robustesse** et **interprétabilité**
   - Le **Recall pour la classe “à risque”** étant prioritaire dans cette problématique de santé, il a été utilisé comme critère principal
 
+```
+### 📈 Résultats du modèle Random Forest
 
-Accuracy: 0.702
-
-Classification Report:
-               precision    recall  f1-score   support
-
-         0.0       0.73      0.66      0.69        91
-         1.0       0.68      0.75      0.71        87
-
-    accuracy                           0.70       178
-   macro avg       0.70      0.70      0.70       178
-weighted avg       0.71      0.70      0.70       178
+| Classe         | Précision | Rappel | F1-score | Support |
+|----------------|-----------|--------|----------|---------|
+| 0 (faible risque) | 0.73      | 0.66   | 0.69     | 91      |
+| 1 (haut risque)   | 0.68      | 0.75   | 0.71     | 87      |
+| **Accuracy globale** |         |        | **0.70** | 178     |
 
 Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas rater de cas potentiellement graves.
 
