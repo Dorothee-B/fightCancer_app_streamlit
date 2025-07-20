@@ -91,8 +91,8 @@ L’algorithme de prédiction repose sur un **Random Forest Classifier**, sélec
   - Le modèle **Random Forest** a été retenu pour son bon compromis entre **performance**, **robustesse** et **interprétabilité**
   - Le **Recall pour la classe “à risque”** étant prioritaire dans cette problématique de santé, il a été utilisé comme critère principal
 
-```
-### 📈 Résultats du modèle Random Forest
+
+## 📈 Résultats du modèle Random Forest
 
 | Classe         | Précision | Rappel | F1-score | Support |
 |----------------|-----------|--------|----------|---------|
