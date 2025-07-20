@@ -65,15 +65,66 @@ This application is based on the **HINTS 7 (2024)** (Health Information National
 - **Official source**: https://hints.cancer.gov
 - **License**: public data available for research and non-commercial use
 
-The data were cleaned and **balanced** using **SMOTE**, then a **Random Forest**classifier was trained to predict cancer risk based on lifestyle features.
+## 🧠 Machine Learning Model
 
-⚠️ This tool is **not a medical diagnostic**, but a predictive aid based on self-reported data. **Always consult a healthcare professional for medical concerns**.
+The prediction algorithm is based on a **Random Forest Classifier**, selected after automated comparison of several models using the **PyCaret** library.
 
-## Authors
-Aasiyah B.
-Dorothée B.
+---
+
+## Modeling Process
+
+- **Preprocessing:**
+  - Data cleaning from the HINTS 7 survey
+  - Encoding of categorical variables
+  - Class balancing using **SMOTE** (Synthetic Minority Over-sampling Technique)
+
+- **Model comparison:**
+  - Automated benchmarking via **PyCaret** with models such as Random Forest, Gradient Boosting, XGBoost, Logistic Regression, etc.
+  - Evaluation metrics: **Accuracy**, **Recall**, **F1-score**, **AUC**, **MCC**
+
+- **Final selection:**
+  - **Random Forest** was chosen for its balance of **performance**, **robustness**, and **interpretability**
+  - **Recall on the “high-risk” class** was prioritized due to the health-critical nature of the task
+
+---
+
+### 📈 Random Forest Model Results
+
+| Class             | Precision | Recall | F1-score | Support |
+|-------------------|-----------|--------|----------|---------|
+| 0 (low risk)      | 0.73      | 0.66   | 0.69     | 91      |
+| 1 (high risk)     | 0.68      | 0.75   | 0.71     | 87      |
+| **Overall Accuracy** |         |        | **0.70** | 178     |
+
+The model **maximizes recall for the "high-risk" class (0.75)** to avoid missing potentially serious cases.
+
+- The trained model was saved and integrated into the app using `joblib`.
+
+---
+
+## Training Pipeline
+
+**Main steps:**
+
+- Data cleaning and preparation  
+- Categorical variable encoding  
+- Normalization (if needed)  
+- Application of **SMOTE** to balance the low-risk / high-risk classes  
+- Model training with Random Forest  
+- Export of the trained model with `joblib` for app integration  
+
+---
+
+⚠️ This application does not provide a medical diagnosis. It is an estimation based on self-reported data. For medical concerns, please consult a healthcare professional.
+
+---
+
+## Authors  
+- Aasiyah B.  
+- Dorothée B.
 
 ## Contact
-For questions or feedback, feel free to reach out:
-Dorothée B. – busierdorothee@gmail.com
-Aasiyah B.
+
+For any questions or suggestions, feel free to reach out:  
+📧 Dorothée B. – busierdorothee@gmail.com  
+📧 Aasiyah B.
