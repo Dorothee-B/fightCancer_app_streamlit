@@ -72,7 +72,55 @@ Cette application repose sur les données de l’enquête **HINTS 7 (2024)** (*H
 - **Lien officiel** : [https://hints.cancer.gov](https://hints.cancer.gov)
 - **Licence / Accès** : données publiques accessibles gratuitement pour usage non commercial
 
-Avant entraînement du modèle, les données ont été sélectionées, nettoyées et équilibrées à l’aide de la méthode **SMOTE**, puis un classifieur **Random Forest** a été entraîné.
+
+## 🧠 Modèle de Machine Learning
+L’algorithme de prédiction repose sur un **Random Forest Classifier**, sélectionné après comparaison automatisée de plusieurs modèles avec la **librairie PyCaret**.
+
+## Processus de modélisation 
+
+- **Prétraitement :**
+  - Nettoyage des données issues de l’enquête HINTS 7
+  - Encodage des variables catégorielles
+  - Rééquilibrage des classes avec **SMOTE** (Synthetic Minority Over-sampling Technique)
+
+- **Comparaison des modèles :**
+  - Utilisation de **PyCaret** pour tester plusieurs algorithmes : Random Forest, Gradient Boosting, XGBoost, Logistic Regression, etc.
+  - Évaluation selon plusieurs métriques : **Accuracy**, **Recall**, **F1-score**, **AUC**, **MCC**
+
+- **Sélection finale :**
+  - Le modèle **Random Forest** a été retenu pour son bon compromis entre **performance**, **robustesse** et **interprétabilité**
+  - Le **Recall pour la classe “à risque”** étant prioritaire dans cette problématique de santé, il a été utilisé comme critère principal
+
+
+Accuracy: 0.702
+
+Classification Report:
+               precision    recall  f1-score   support
+
+         0.0       0.73      0.66      0.69        91
+         1.0       0.68      0.75      0.71        87
+
+    accuracy                           0.70       178
+   macro avg       0.70      0.70      0.70       178
+weighted avg       0.71      0.70      0.70       178
+
+Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas rater de cas potentiellement graves.
+
+- Le modèle a été sauvegardé et intégré dans l’application avec joblib.
+
+## Pipeline d’entraînement
+**Étapes principales :**
+
+- Nettoyage et préparation des données
+- Encodage des variables catégorielles
+- Normalisation si nécessaire
+- Application de la méthode SMOTE pour équilibrer les classes (faible risque / risque élevé)
+- Entraînement du modèle Random Forest
+- Sauvegarde avec joblib pour intégration dans l’application
+
+
+
+
 
 ⚠️ Cette application ne fournit pas un diagnostic médical mais une estimation basée sur des données déclaratives. Consultez un professionnel de santé pour tout avis médical.
 
