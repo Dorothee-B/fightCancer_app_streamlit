@@ -123,10 +123,10 @@ Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas ra
 ---
 
 ## Auteurs 
-Aasiyah B.
-Dorothée B.
+- Aasiyah B.
+- Dorothée B.
 
 ## Contacts
 Pour toute question ou suggestion, n’hésitez pas à me contacter : 
-Dorothée B. - busierdorothee@gmail.com
-Aasiyah B.
+- Dorothée B. - busierdorothee@gmail.com
+- Aasiyah B.
