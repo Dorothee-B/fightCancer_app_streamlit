@@ -156,7 +156,6 @@ if not st.session_state.form_submitted:
     with st.form("formulaire_risque"):
         st.markdown("<h2>Un peu de vous </h2>", unsafe_allow_html=True)
 
-        
         col_age, col_bmi = st.columns(2)
         with col_age:
             prenom = st.text_input("Quel est votre prénom ou surnom ?", help="facultatif, il sera utilisé pour personnaliser les résultats")
