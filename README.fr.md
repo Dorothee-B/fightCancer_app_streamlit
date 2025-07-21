@@ -20,11 +20,12 @@ Le modèle utilise un classifieur **Random Forest**  entraîné avec un **récha
 ## Aperçu de l'application
 
 ### Formulaire d’entrée
-![Formulaire Streamlit](images/App_home_screenshot.png)
-(images/App_home_screenshot1.png)
+![Streamlit form - part 1](images/App_home_screenshot.png)
+![Streamlit form - part 2](images/App_home_screenshot1.png)
+
 
 ### Message personnalisé selon le score
-![Message pour un risque modéré / haut](images/screenshot_faible_risque.png)
+![Message pour un risque modéré / haut](images/App_result_screenshot.png)
 
 ---
 
