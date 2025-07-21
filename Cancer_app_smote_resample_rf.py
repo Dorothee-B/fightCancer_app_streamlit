@@ -49,7 +49,6 @@ st.markdown(
         unsafe_allow_html=True
     )
 
-# add_bg_and_logo()
 st.markdown(f"""
 <style>
 
@@ -59,7 +58,7 @@ st.markdown(f"""
     .header-bar h1 {{
         color: #8B4513; 
         margin: 0;
-        font-size: 2em;
+        font-size: 2.5em;
         text-align: center;
     }}
     .stButton {{
@@ -115,9 +114,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # --- Header with Logo and Title ---
-st.markdown('<div class="header-bar">', unsafe_allow_html=True)
-st.markdown("<h1>Test d'évaluation simple de votre risque de cancer</h1>", unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('<div class="header-bar"> <h1>Votre risque de cancer en quelques questions</h1> </div>', unsafe_allow_html=True)
 
 st.markdown("""
     Bienvenue,<br> <br> 
@@ -138,13 +135,16 @@ raw_features_for_pipeline_input = [
 
 try:
     pipeline = joblib.load("modele_cancer_resample_rf.pkl")
-    with open("features_cancer_resample_rf.txt", "r") as f:
+    print("✅ Pipeline loaded successfully")
+    with open("data/features_cancer_resample_rf.txt", "r") as f:
         model_output_features = [line.strip() for line in f.readlines()]
-except FileNotFoundError:
+except Exception as e:
+    st.error(f"❌ Erreur lors du chargement du pipeline : {e}")
+    
     class MockPipeline:
         def predict(self, X): return [0] * len(X)
         def predict_proba(self, X): return [[0.9, 0.1] for _ in range(X.shape[0])]
-
+    
     pipeline = MockPipeline()
     model_output_features = raw_features_for_pipeline_input
 
