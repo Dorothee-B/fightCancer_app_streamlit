@@ -23,7 +23,7 @@ The model uses a **Random Forest classifier** trained with **SMOTE resampling** 
 ![Streamlit form - part 2](images/App_home_screenshot1.png)
 
 ### Personalized Message Based on Risk Score
-![Message for moderate / hight risk](images/App_result_screenshot.png)
+![Message for moderate / hight risk](images/Result_app_screenshot.png)
 
 
 

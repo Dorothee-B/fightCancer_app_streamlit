@@ -25,7 +25,7 @@ Le modèle utilise un classifieur **Random Forest**  entraîné avec un **récha
 
 
 ### Message personnalisé selon le score
-![Message pour un risque modéré / haut](images/App_result_screenshot.png)
+![Message pour un risque modéré / haut](images/Result_app_screenshot.png)
 
 ---
 
