@@ -19,11 +19,12 @@ The model uses a **Random Forest classifier** trained with **SMOTE resampling** 
 ## Application Preview
 
 ### Input Form
-![Streamlit form - part 1](images/App_home_screenshot.png)
-![Streamlit form - part 2](images/App_home_screenshot1.png)
+<img src="images/App_home_screenshot.png" alt="Streamlit form - part 1" width="400"/>
+<br/>
+<img src="images/App_home_screenshot1.png" alt="Streamlit form - part 2" width="400"/>
 
 ### Personalized Message Based on Risk Score
-![Message for moderate / hight risk](images/Result_app_screenshot.png)
+<img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="400"/>
 
 
 
