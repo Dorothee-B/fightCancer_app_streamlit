@@ -17,6 +17,17 @@ Le modèle utilise un classifieur **Random Forest**  entraîné avec un **récha
 
 ---
 
+## Aperçu de l'application
+
+### Formulaire d’entrée
+![Formulaire Streamlit](images/App_home_screenshot.png)
+(images/App_home_screenshot1.png)
+
+### Message personnalisé selon le score
+![Message pour un risque modéré / haut](images/screenshot_faible_risque.png)
+
+---
+
 ## Installation
 
 1. Cloner ce dépôt :
@@ -52,7 +63,11 @@ fightCancer_app_streamlit/
 ├── Cancer_app_smote_resample_rf.py  # Script principal Streamlit
 ├── model_cancer_resample_rf.pkl      # Modèle ML pré-entraîné
 ├── requirements.txt            # Dépendances Python
-├── images/                     # Dossier des images (smiley, logos)
+├── images/                     # Dossier des images (screenshots_app, logo, smiley)
+│   ├── App_home_screenshot.png
+│   ├── App_home_screenshot1.png
+│   └── Result_app_screenshot.png
+│   └── Logo_fight_cancer_app.png
 ├── data/                       # dataset, features_importance.txt
 └── README.md                   # Ce fichier
 ```

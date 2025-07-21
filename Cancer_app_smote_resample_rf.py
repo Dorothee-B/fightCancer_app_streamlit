@@ -313,7 +313,7 @@ if st.session_state.form_submitted:
         score = round(Y_prediction_proba[0][1] * 100, 0)
      
 
-        st.markdown(f"<h2>Résultat de votre Évaluation pour {nom}</h2>", unsafe_allow_html=True)
+        st.markdown(f"<h2> {nom}, résultat de votre test</h2>", unsafe_allow_html=True)
         
 
     # Result slider

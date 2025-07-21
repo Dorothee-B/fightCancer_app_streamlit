@@ -16,6 +16,19 @@ The model uses a **Random Forest classifier** trained with **SMOTE resampling** 
 
 ---
 
+## Application Preview
+
+### Input Form
+![Streamlit form](images/App_home_screenshot.png)
+(images/App_home_screenshot1.png)
+
+### Personalized Message Based on Risk Score
+![Message for moderate / hight risk](images/screenshot_faible_risque.png)
+
+
+
+---
+
 ## Installation
 
 1. Clone this repository:
@@ -47,7 +60,11 @@ fightCancer_app_streamlit/
 ├── Cancer_app_smote_resample_rf.py   # Main Streamlit script
 ├── model_cancer_resample_rf.pkl      # Pre-trained ML model
 ├── requirements.txt                  # Python dependencies
-├── images/                           # Image assets (emoji, logos)
+├── images/                           # Dossier des images (screenshots_app, logo, smiley)
+│   ├── App_home_screenshot.png
+│   ├── App_home_screenshot1.png
+│   └── Result_app_screenshot.png
+│   └── Logo_fight_cancer_app.png
 ├── data/                             # Dataset, features_importance.txt
 └── README.en.md                      # This file
 ```
