@@ -143,7 +143,7 @@ The model **maximizes recall for the "high-risk" class (0.75)** to avoid missing
 - Aasiyah B.  
 - Dorothée B.
 
-<img src="images/Onco-sisters_logo-nobackground.png" alt="Onco-sisters_logo" width="100"/>
+<img src="images/Onco-sisters_logo.png" alt="Onco-sisters_logo" width="100"/>
 
 ## Contact
 
