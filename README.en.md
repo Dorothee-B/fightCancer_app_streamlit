@@ -6,6 +6,14 @@ The model uses a **Random Forest classifier** trained with **SMOTE resampling** 
 
 ---
 
+## Try the App via Streamlit Cloud
+
+Click below to launch the app directly in your browser (no installation needed): 👉 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/)
+
+---
+
+
 ## Features
 
 - Interactive input of personal and lifestyle information  
@@ -27,10 +35,9 @@ The model uses a **Random Forest classifier** trained with **SMOTE resampling** 
 <img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="400"/>
 
 
-
 ---
 
-## Installation
+## Installation (optional)
 
 1. Clone this repository:
 ```bash
@@ -66,7 +73,7 @@ fightCancer_app_streamlit/
 │   ├── App_home_screenshot1.png
 │   └── Result_app_screenshot.png
 │   └── Logo_fight_cancer_app.png
-├── data/                             # Dataset, features_importance.txt
+├── data/                             # Dataset and feature importance report
 └── README.en.md                      # This file
 ```
 
@@ -118,22 +125,10 @@ The model **maximizes recall for the "high-risk" class (0.75)** to avoid missing
 
 - The trained model was saved and integrated into the app using `joblib`.
 
----
-
-## Training Pipeline
-
-**Main steps:**
-
-- Data cleaning and preparation  
-- Categorical variable encoding  
-- Normalization (if needed)  
-- Application of **SMOTE** to balance the low-risk / high-risk classes  
-- Model training with Random Forest  
-- Export of the trained model with `joblib` for app integration  
 
 ---
 
-⚠️ This application does not provide a medical diagnosis. It is an estimation based on self-reported data. For medical concerns, please consult a healthcare professional.
+⚠️ This application does not provide a medical diagnosis. It is an estimation based on self-reported data. **For medical concerns, please consult a healthcare professional.**
 
 ---
 
@@ -146,3 +141,9 @@ The model **maximizes recall for the "high-risk" class (0.75)** to avoid missing
 For any questions or suggestions, feel free to reach out:  
 📧 Dorothée B. – busierdorothee@gmail.com  
 📧 Aasiyah B.
+
+
+## ❗ License
+
+This project is protected by copyright.  
+**Any use, reproduction, modification, or redistribution is strictly prohibited without prior written permission.**

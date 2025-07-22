@@ -2,7 +2,14 @@
 
 Une application **Streamlit interactive** permettant d’évaluer le **risque de développer un cancer** à partir des habitudes de vie et des données personnelles de santé. 
 
-Le modèle utilise un classifieur **Random Forest**  entraîné avec un **réchantillonnage et correctif SMOTE** pour corriger le déséquilibrer des classes.
+Le modèle utilise un classifieur **Random Forest**  entraîné avec un **réchantillonnage et correctif SMOTE** pour corriger le déséquilibrexs des classes.
+
+---
+
+## Tester l'application en ligne sur Streamlit Cloud
+
+Tester l'application en ligne sur Streamlit Cloud (aucune installation nécessaire)  👉 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/)
 
 ---
 
@@ -10,7 +17,7 @@ Le modèle utilise un classifieur **Random Forest**  entraîné avec un **récha
 
 - Saisie interactive des informations personnelles et des habitudes de vie
 - Prédiction du score de risque avec un modèle pré-entraîné
-- Affichage d'un risque de développer un cancer sous forme de pourcentage (0% faible risque à 100% : risque très élevé)
+- Affichage d'un risque de développer un cancer sous forme de pourcentage (0% = faible risque à 100% = risque très élevé)
 - Message personnalisé selon le score
 - Conseils santé adaptés selon le niveau de risque
 - Interface claire et intuitive des résultats
@@ -29,7 +36,7 @@ Le modèle utilise un classifieur **Random Forest**  entraîné avec un **récha
 
 ---
 
-## Installation
+## Installation locale (optionnelle)
 
 1. Cloner ce dépôt :
 ```bash
@@ -49,12 +56,10 @@ venv\Scripts\activate      # Windows
 pip install -r requirements.txt
 ```
 
----
-
-## 🚀  Déploiement 
-L’application est déployée sur Streamlit Cloud et accessible à l’adresse :
-https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/
-
+4. Lancer l'application : 
+```
+streamlit run Cancer_app_smote_resample_rf.py
+```
 ---
 
 ##  📂 Structure du projet
@@ -120,21 +125,9 @@ Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas ra
 
 - Le modèle a été sauvegardé et intégré dans l’application avec joblib.
 
-## Pipeline d’entraînement
-**Étapes principales :**
+---
 
-- Nettoyage et préparation des données
-- Encodage des variables catégorielles
-- Normalisation si nécessaire
-- Application de la méthode SMOTE pour équilibrer les classes (faible risque / risque élevé)
-- Entraînement du modèle Random Forest
-- Sauvegarde avec joblib pour intégration dans l’application
-
-
-
-
-
-⚠️ Cette application ne fournit pas un diagnostic médical mais une estimation basée sur des données déclaratives. Consultez un professionnel de santé pour tout avis médical.
+⚠️ Cette application ne fournit pas un diagnostic médical mais une estimation basée sur des données déclaratives. **Consultez un professionnel de santé pour tout avis médical.**
 
 ---
 
@@ -146,3 +139,9 @@ Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas ra
 Pour toute question ou suggestion, n’hésitez pas à me contacter : 
 - Dorothée B. - busierdorothee@gmail.com
 - Aasiyah B.
+
+
+## ❗ Licence
+
+Ce projet est protégé par le droit d’auteur.  
+**Toute utilisation, reproduction, modification ou redistribution est strictement interdite sans autorisation écrite préalable.**
