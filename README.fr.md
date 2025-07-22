@@ -143,6 +143,8 @@ Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas ra
 - Aasiyah B.
 - Dorothée B.
 
+<img src="images/Onco-sisters_logo-nobackground.png" alt="Onco-sisters_logo" width="100"/>
+
 ## Contacts
 Pour toute question ou suggestion, n’hésitez pas à me contacter : 
 - Dorothée B. - busierdorothee@gmail.com

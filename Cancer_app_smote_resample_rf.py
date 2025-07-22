@@ -34,23 +34,15 @@ with st.container():
     st.markdown(image_html, unsafe_allow_html=True)
 
 # --- Custom CSS for styling ---
-st.markdown(
-        f"""
-        <style>
-        body {{
-            background: linear-gradient(to bottom, #fcd2e2, #fff8cc);
-        }}
-        .stApp {{
-            background: linear-gradient(to bottom, #fcd2e2, #fff8cc);
-        }}
-
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
 
 st.markdown(f"""
 <style>
+    body {{
+                background: linear-gradient(to bottom, #fcd2e2, #fff8cc);
+            }}
+            .stApp {{
+                background: linear-gradient(to bottom, #fcd2e2, #fff8cc);
+            }}
 
     .header-bar img {{
         max-height: 80px; /* Adjust logo size */
@@ -67,7 +59,7 @@ st.markdown(f"""
     margin: 10px 0; 
     }}
 
-    .stButton>button {{
+    .stButton > button {{
         background-color: #FF69B4; 
         color: white;
         border-radius: 5px;
@@ -310,7 +302,6 @@ if st.session_state.form_submitted:
     try:
         Y_prediction_proba = pipeline.predict_proba(df_form)
         score = round(Y_prediction_proba[0][1] * 100, 0)
-     
 
         st.markdown(f"<h2> {nom}, résultat de votre test</h2>", unsafe_allow_html=True)
         
@@ -369,8 +360,6 @@ if st.session_state.form_submitted:
             </div>
         """, unsafe_allow_html=True)
 
-          
-
 
         if score <= 20 :
             st.success(f"**Félicitations {nom} !** ton score de risque est faible. Cela suggère que vos habitudes actuelles sont globalement favorables à une bonne santé. Continuez à prendre soin de vous et à maintenir ces pratiques saines")
@@ -391,3 +380,6 @@ if st.session_state.form_submitted:
         st.session_state.form_submitted = False
         st.session_state.inputs = {}
         st.rerun()
+
+
+st.image('images/Onco-sisters_logo-nobackground.png', width=150)
