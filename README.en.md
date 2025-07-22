@@ -11,8 +11,9 @@ The model uses a **Random Forest classifier** trained with **SMOTE resampling** 
 Click below to launch the app directly in your browser (no installation needed): 👉 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/)
 
----
+https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/
 
+---
 
 ## Features
 

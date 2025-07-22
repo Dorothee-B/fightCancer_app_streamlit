@@ -11,6 +11,8 @@ Le modèle utilise un classifieur **Random Forest**  entraîné avec un **récha
 Tester l'application en ligne sur Streamlit Cloud (aucune installation nécessaire)  👉 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/)
 
+https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/
+
 ---
 
 ## Fonctionnalités
