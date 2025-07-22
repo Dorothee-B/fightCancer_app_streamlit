@@ -27,12 +27,12 @@ Tester l'application en ligne sur Streamlit Cloud (aucune installation nécessai
 ## Aperçu de l'application
 
 ### Formulaire d’entrée
-<img src="images/App_home_screenshot.png" alt="Streamlit form - part 1" width="400"/>
+<img src="images/App_home_screenshot.png" alt="Streamlit form - part 1" width="300"/>
 <br/>
-<img src="images/App_home_screenshot1.png" alt="Streamlit form - part 2" width="400"/>
+<img src="images/App_home_screenshot1.png" alt="Streamlit form - part 2" width="300"/>
 
 ### Message personnalisé selon le score
-<img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="400"/>
+<img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="300"/>
 
 ---
 
@@ -87,8 +87,14 @@ Cette application repose sur les données de l’enquête **HINTS 7 (2024)** (*H
 - **Modes de réponse** : papier et en ligne, avec incitations financières ($2 + $10)
 - **Méthodologie** : échantillonnage aléatoire en deux étapes (adresse + individu)
 - **Objectif** : mesurer les comportements de santé, les habitudes de vie, et l'accès à l'information médicale dans la population américaine adulte
+- **Taille initiale de l’échantillon** : 7278 participants (enquête HINTS 7)
+- **Taille finale après nettoyage et rééchantillonnage** :
+  - **Entraînement** : 709 individus (dont classes équilibrées via SMOTE)
+  - **Test** : 178 individus (dont 87 cas à risque élevé)
+  Ce traitement permet d’assurer la qualité et la robustesse du modèle malgré le déséquilibre initial.
+
 - **Expériences intégrées** : 
-  - Effet d’un *engagement de sincérité* sur la qualité des réponses
+  - *Engagement de sincérité* sur la qualité des réponses
   - Incitation spécifique ($10) dans les zones à forte minorité pour améliorer la représentativité
 - **Lien officiel** : [https://hints.cancer.gov](https://hints.cancer.gov)
 - **Licence / Accès** : données publiques accessibles gratuitement pour usage non commercial
@@ -102,7 +108,7 @@ L’algorithme de prédiction repose sur un **Random Forest Classifier**, sélec
 - **Prétraitement :**
   - Nettoyage des données issues de l’enquête HINTS 7
   - Encodage des variables catégorielles
-  - Rééquilibrage des classes avec **SMOTE** (Synthetic Minority Over-sampling Technique)
+  - Rééchantillonage manuel et rééquilibrage des classes avec **SMOTE** (Synthetic Minority Over-sampling Technique)
 
 - **Comparaison des modèles :**
   - Utilisation de **PyCaret** pour tester plusieurs algorithmes : Random Forest, Gradient Boosting, XGBoost, Logistic Regression, etc.

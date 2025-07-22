@@ -27,12 +27,12 @@ Click below to launch the app directly in your browser (no installation needed):
 ## Application Preview
 
 ### Input Form
-<img src="images/App_home_screenshot.png" alt="Streamlit form - part 1" width="400"/>
+<img src="images/App_home_screenshot.png" alt="Streamlit form - part 1" width="300"/>
 <br/>
-<img src="images/App_home_screenshot1.png" alt="Streamlit form - part 2" width="400"/>
+<img src="images/App_home_screenshot1.png" alt="Streamlit form - part 2" width="300"/>
 
 ### Personalized Message Based on Risk Score
-<img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="400"/>
+<img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="300"/>
 
 
 ---
@@ -83,6 +83,12 @@ This application is based on the **HINTS 7 (2024)** (Health Information National
 - **Data collection period**: March – September 2024
 - **Modes**: paper and web, with financial incentives ($2 + $10)
 - **Sampling method**: 2-stage random sampling (address + one adult per household)
+- **Initial sample size:** 7278 respondents
+- **After data cleaning, filtering, resampling, the final modeling dataset was reduced to:**
+
+  - **Training set:** 709 individuals
+  - **Test set:** 178 individuals, including 87 high-risk cases
+
 - **Goal**: to assess health behaviors, lifestyle, and access to medical information among U.S. adults
 - **Built-in experiments**:
   - *Commitment to answer truthfully* to improve data quality
@@ -101,7 +107,7 @@ The prediction algorithm is based on a **Random Forest Classifier**, selected af
 - **Preprocessing:**
   - Data cleaning from the HINTS 7 survey
   - Encoding of categorical variables
-  - Class balancing using **SMOTE** (Synthetic Minority Over-sampling Technique)
+  - Manualy Resampling and Class balancing using **SMOTE** (Synthetic Minority Over-sampling Technique)
 
 - **Model comparison:**
   - Automated benchmarking via **PyCaret** with models such as Random Forest, Gradient Boosting, XGBoost, Logistic Regression, etc.
