@@ -382,4 +382,4 @@ if st.session_state.form_submitted:
         st.rerun()
 
 
-st.image('images/Onco-sisters_logo-nobackground.png', width=150)
+st.image('images/Onco-sisters_logo-nobackground.png', caption="Powered by Onco-Systers", width=150)
