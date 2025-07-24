@@ -125,11 +125,11 @@ L’algorithme de prédiction repose sur un **Random Forest Classifier**, sélec
 
 | Classe         | Précision | Rappel | F1-score | Support |
 |----------------|-----------|--------|----------|---------|
-| 0 (faible risque) | 0.73      | 0.66   | 0.69     | 91      |
-| 1 (haut risque)   | 0.68      | 0.75   | 0.71     | 87      |
-| **Accuracy globale** |         |        | **0.70** | 178     |
+| 0 (faible risque) | 0.76   | 0.70   | 0.73     | 91      |
+| 1 (haut risque)   | 0.71   | 0.77   | 0.74     | 87      |
+| **Accuracy globale** |         |        | **0.74** | 178     |
 
-Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas rater de cas potentiellement graves.
+Le modèle **maximise le rappel de la classe "à risque" (0.77)** pour ne pas rater de cas potentiellement graves.
 
 - Le modèle a été sauvegardé et intégré dans l’application avec joblib.
 
@@ -147,9 +147,8 @@ Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas ra
 
 ## Contacts
 Pour toute question ou suggestion, n’hésitez pas à me contacter : 
+- Aasiyah B. - aasiyah.bhewa@gmail.com
 - Dorothée B. - busierdorothee@gmail.com
-- Aasiyah B.
-
 
 ## ❗ Licence
 

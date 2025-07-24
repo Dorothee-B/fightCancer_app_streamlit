@@ -124,11 +124,11 @@ The prediction algorithm is based on a **Random Forest Classifier**, selected af
 
 | Class             | Precision | Recall | F1-score | Support |
 |-------------------|-----------|--------|----------|---------|
-| 0 (low risk)      | 0.73      | 0.66   | 0.69     | 91      |
-| 1 (high risk)     | 0.68      | 0.75   | 0.71     | 87      |
-| **Overall Accuracy** |         |        | **0.70** | 178     |
+| 0 (low risk)      | 0.76      | 0.70   | 0.73     | 91      |
+| 1 (high risk)     | 0.71      | 0.77   | 0.74     | 87      |
+| **Overall Accuracy** |         |        | **0.74** | 178     |
 
-The model **maximizes recall for the "high-risk" class (0.75)** to avoid missing potentially serious cases.
+The model **maximizes recall for the "high-risk" class (0.77)** to avoid missing potentially serious cases.
 
 - The trained model was saved and integrated into the app using `joblib`.
 
@@ -148,8 +148,8 @@ The model **maximizes recall for the "high-risk" class (0.75)** to avoid missing
 ## Contact
 
 For any questions or suggestions, feel free to reach out:  
+📧 Aasiyah B. - aasiyah.bhewa@gmail.com
 📧 Dorothée B. – busierdorothee@gmail.com  
-📧 Aasiyah B.
 
 
 ## ❗ License

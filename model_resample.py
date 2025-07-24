@@ -47,7 +47,7 @@ ordinal_categorical_vars = [
     'GeneralHealth', 'HealthLimits_Pain', 'Nervous',
     'IncomeRanges', 'Education'
 ]
-string_categorical_vars = ['Birthcountry']  # One hot encoder
+string_categorical_vars = ['Birthcountry', 'BirthSex']  # One hot encoder
 
 continuous_vars = [
     'Fruit2', 'Vegetables2', 'TimesStrengthTraining', 'Drink_nb_PerMonth',

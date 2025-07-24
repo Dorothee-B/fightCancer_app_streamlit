@@ -7,11 +7,6 @@ from PIL import Image
 import base64
 
 
-#chemin absolu du répertoire du script
-current_dir = os.path.dirname(os.path.abspath(__file__))
-logo_path = os.path.join(current_dir, "Logo_fight_cancer_app.png")
-
-
 # --- Configuration de la Page ---
 st.set_page_config(
     page_title="Évaluation du risque de Cancer",
@@ -19,19 +14,22 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-with open("images/Logo_fight_cancer_app.png", "rb") as image_file:
-    encoded = base64.b64encode(image_file.read()).decode()
+# Load and display main logo
+try:
+    with open("images/Logo_fight_cancer_app.png", "rb") as image_file:
+        encoded = base64.b64encode(image_file.read()).decode()
 
-# HTML to center image
-image_html = f"""
-    <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px; margin-bottom: 20px;">
-        <img src="data:image/png;base64,{encoded}" alt="Logo" width="500">
-    </div>
-"""
+    # HTML to center image
+    image_html = f"""
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px; margin-bottom: 20px;">
+            <img src="data:image/png;base64,{encoded}" alt="Logo" width="400">
+        </div>
+    """
+    with st.container():
+        st.markdown(image_html, unsafe_allow_html=True)
+except FileNotFoundError:
+    st.error("Error: 'images/Logo_fight_cancer_app.png' not found. Please ensure the image exists in the 'images' directory.")
 
-# Display it inside a container
-with st.container():
-    st.markdown(image_html, unsafe_allow_html=True)
 
 # --- Custom CSS for styling ---
 
@@ -44,13 +42,19 @@ st.markdown(f"""
                 background: linear-gradient(to bottom, #fcd2e2, #fff8cc);
             }}
 
+    body, .stApp {{
+    color: #1a1f2b; 
+    }}
+    .stForm label, .stForm span, .stForm div {{
+    color: #1a1f2b;
+    }}
     .header-bar img {{
-        max-height: 80px; /* Adjust logo size */
+        max-height: 80px; 
     }}
     .header-bar h1 {{
         color: #8B4513; 
         margin: 0;
-        font-size: 2.5em;
+        font-size: 2.2em;
         text-align: center;
     }}
     .stButton {{
@@ -102,6 +106,7 @@ st.markdown(f"""
     .stSelectbox div[data-baseweb="select"] div {{
         color: #8B4513; 
     }}
+   
 </style>
 """, unsafe_allow_html=True)
 
@@ -111,12 +116,12 @@ st.markdown('<div class="header-bar"> <h1>Votre risque de cancer en quelques que
 st.markdown("""
     Bienvenue,<br> <br> 
     Ce questionnaire vise à estimer votre **risque potentiel de développer un cancer** en se basant sur divers facteurs de mode de vie et de santé. <br> <br>
-    **Ce n'est pas un diagnostic médical.** Pour toute préoccupation de santé, veuillez consulter un professionnel.
+    **⚠️ Ce n'est pas un diagnostic médical.** Pour toute préoccupation de santé, veuillez consulter un professionnel.
 """, unsafe_allow_html=True)
 
 
 raw_features_for_pipeline_input = [
-    'CutSkipMeals2', 'DiffPayMedBills', 'SmokeNow',
+    'CutSkipMeals2', 'DiffPayMedBills', 'SmokeNow', 'BirthSex',
     'MedConditions_Diabetes', 'MedConditions_HighBP', 'MedConditions_HeartCondition',
     'MedConditions_LungDisease', 'MedConditions_Depression',
     'GeneralHealth', 'HealthLimits_Pain', 'Nervous',
@@ -124,6 +129,9 @@ raw_features_for_pipeline_input = [
     'Fruit2', 'Vegetables2', 'TimesStrengthTraining', 'Drink_nb_PerMonth',
     'ChildrenInHH', 'TotalHousehold', 'TimesSunburned', 'BMI', 'Age', 'SleepWeekdayHr'
 ]
+
+pipeline = None # Initialize pipeline to None
+model_output_features = raw_features_for_pipeline_input # Default value
 
 try:
     pipeline = joblib.load("modele_cancer_resample_rf.pkl")
@@ -138,25 +146,46 @@ except Exception as e:
         def predict_proba(self, X): return [[0.9, 0.1] for _ in range(X.shape[0])]
     
     pipeline = MockPipeline()
-    model_output_features = raw_features_for_pipeline_input
 
+# Initialisation sécurisée des états de session
+if "step" not in st.session_state:
+    st.session_state.step = 0
+if "inputs" not in st.session_state: # Ensure inputs dictionary is always there
+    st.session_state.inputs = {}
 if "form_submitted" not in st.session_state:
     st.session_state.form_submitted = False
-    st.session_state.inputs = {}
 
-if not st.session_state.form_submitted:
-    with st.form("formulaire_risque"):
+# --- Form Steps ---
+
+if st.session_state.step == 0:
+    with st.form("step_0_form"):
         st.markdown("<h2>Un peu de vous </h2>", unsafe_allow_html=True)
+
+        BirthSex = st.radio("Quel est votre sexe de naissance ?", ["Femme", "Homme", "Ne souhaite pas répondre"])
 
         col_age, col_bmi = st.columns(2)
         with col_age:
             prenom = st.text_input("Quel est votre prénom ou surnom ?", help="facultatif, il sera utilisé pour personnaliser les résultats")
-            poids = st.number_input("Quel est votre poids (kg) ?", 30.0, 300.0, 70.0)
+            poids = st.number_input("Quel est votre poids (kg) ?", 30.0, 200.0, 70.0, step=0.1, format="%.1f")
             
         with col_bmi:
             Age = st.number_input("Quel est votre âge ?", 18, 120, 30)
             taille_m = st.number_input("Quelle est votre taille (en mètres) ?", 1.0, 2.4, 1.70)
-        
+         
+        submit_step0 = st.form_submit_button("Continuer")
+
+        if submit_step0:
+            # Store inputs for this step
+            st.session_state.inputs["BirthSex"] = BirthSex
+            st.session_state.inputs["prenom"] = prenom
+            st.session_state.inputs["Age"] = Age
+            st.session_state.inputs["poids"] = poids
+            st.session_state.inputs["taille_m"] = taille_m
+            st.session_state.step = 1 # Move to next step
+            st.rerun() # Rerun to display the next step
+ 
+elif st.session_state.step == 1:       
+    with st.form("step_1_form"):                  
         st.markdown("<h2> Votre mode de vie </h2>", unsafe_allow_html=True)
         col_smoke, col_alcohol = st.columns(2)
         with col_smoke:
@@ -168,8 +197,22 @@ if not st.session_state.form_submitted:
         with col_sun:
             soleil = st.number_input("Les 12 derniers mois, avez-vous eu des coups de soleil ? Si oui, combien ?", 0, 300, 7, help="Le nombre de fois où votre peau a été brûlée par le soleil, causant rougeur et douleur.")
         with col_sleep:
-            sommeil_moy = st.number_input("Durée moyenne de sommeil par jour (en heures) ?", 0.0, 24.0, 7.0, help="Nombre moyen d'heures de sommeil par 24 heures.")
+            sommeil_moy = st.number_input("Durée moyenne de sommeil par jour (en heures) ?", 0, 24, 7, help="Nombre moyen d'heures de sommeil par 24 heures")
 
+        submit_step1 = st.form_submit_button("Continuer")
+
+    if submit_step1:
+        # Store inputs for this step
+        st.session_state.inputs["fumeur"] = fumeur
+        st.session_state.inputs["alcohol"] = alcohol
+        st.session_state.inputs["soleil"] = soleil
+        st.session_state.inputs["sommeil_moy"] = sommeil_moy
+        st.session_state.step = 2 # Move to next step
+        st.rerun() # Rerun to display the next step
+
+
+elif st.session_state.step == 2:       
+    with st.form("step_2_form"):
         st.markdown("<h2>Votre santé</h2>", unsafe_allow_html=True)
         col_health1, col_health2, col_health3 = st.columns(3)
         with col_health1:
@@ -181,13 +224,32 @@ if not st.session_state.form_submitted:
             poumon = st.radio("Avez-vous des problèmes pulmonaires ?", ["Oui", "Non"])
         with col_health3:
             depression = st.radio("Souffrez-vous de dépression ?", ["Oui", "Non"])
-            douleur = st.radio("Souffrez-vous de douleur chronique ?", ["Oui", "Non"])
+            douleur = st.radio("Souffrez-vous de douleu r chronique ?", ["Oui", "Non"])
         nervous = st.selectbox("Quel est votre niveau de stress ?", [
                 "Très faible, je suis relax", "Faible, quelques fois",
                 "Modéré, sous pression la moitié du temps", "Élevé, stressé(e) tous les jours"])
         Sante_general = st.selectbox("Comment évaluez-vous votre santé générale ?", ["Faible", "Moyen", "Bon", "Très bon : On va danser ce soir ?", "Excellent : Je pète la forme !"])
+        
+        submit_step2 = st.form_submit_button("Continuer")
 
 
+    if submit_step2:
+        # Store inputs for this step
+        st.session_state.inputs["diabete"] = diabete
+        st.session_state.inputs["cardiaque"] = cardiaque
+        st.session_state.inputs["hypertension"] = hypertension
+        st.session_state.inputs["poumon"] = poumon
+        st.session_state.inputs["depression"] = depression
+        st.session_state.inputs["nervous"] = nervous
+        st.session_state.inputs["douleur"] = douleur
+        st.session_state.inputs["Sante_general"] = Sante_general
+        st.session_state.step = 3 # Move to next step
+        st.rerun() # Rerun to display the next step
+
+
+
+elif st.session_state.step == 3:       
+    with st.form("step_3_form"):
         st.markdown("<h2>Nutrition et Activités</h2>", unsafe_allow_html=True)
         col_fruit, col_veg, col_sport = st.columns(3)
         with col_fruit:
@@ -228,22 +290,32 @@ if not st.session_state.form_submitted:
         submit = st.form_submit_button("Calculer")
 
         if submit:
-            st.session_state.form_submitted = True
-            st.session_state.inputs = {
-                "prenom": prenom, "Age": Age, "poids": poids, "taille_m": taille_m, "revenu": revenu,
-                "etude": etude, "enfants": enfants, "foyer": foyer, "fumeur": fumeur, "nervous": nervous,
-                "alcohol": alcohol, "soleil": soleil, "diabete": diabete, "hypertension": hypertension,
-                "cardiaque": cardiaque, "poumon": poumon, "depression": depression, "douleur": douleur,
-                "fruits": fruits, "legumes": legumes, "sport": sport, "sommeil_moy": sommeil_moy,
-                "Diff_financiere": Diff_financiere, "Skip_meal": Skip_meal, "Sante_general": Sante_general,
+            # Store inputs for this step (all remaining inputs)
+            st.session_state.inputs.update({
+                "fruits": fruits,
+                "legumes": legumes,
+                "sport": sport,
+                "revenu": revenu,
+                "etude": etude,
+                "enfants": enfants,
+                "foyer": foyer,
+                "Diff_financiere": Diff_financiere,
+                "Skip_meal": Skip_meal,
                 "ethnie": ethnie
-            }
+            })
+            # Combine all stored inputs (from all steps) for final processing
+            #st.session_state.form_submitted = True
+            st.session_state.step = 4 # Move to next step
+            st.rerun() 
 
-if st.session_state.form_submitted:
+            
+# --- Display Results 
+elif st.session_state.step == 4:  
+#if st.session_state.form_submitted:
     data = st.session_state.inputs
     imc = round(data["poids"] / (data["taille_m"] ** 2), 2) if data["taille_m"] > 0 else 0.0
     nom = data["prenom"].strip() or "Cher utilisateur" # More professional default
-
+    BirthSex_map = {"Ne souhaite pas répondre": 0, "Femme": 1, "Homme": 2}
     fumeur_num = {"Jamais": 0, "Quelques fois": 1, "Tous les jours": 2}
     stress_map = {"Très faible, je suis relax": 0, "Faible, quelques fois": 1, "Modéré, sous pression la moitié du temps": 2, "Élevé, stressé(e) tous les jours": 3}
     revenu_map = {
@@ -273,6 +345,7 @@ if st.session_state.form_submitted:
         "Age": data["Age"],
         "BMI": imc,
         "SmokeNow": fumeur_num[data["fumeur"]],
+        "BirthSex": BirthSex_map[data["BirthSex"]],
         "SleepWeekdayHr": data["sommeil_moy"],
         "Nervous": stress_map[data["nervous"]],
         "IncomeRanges": revenu_map[data["revenu"]],
@@ -361,15 +434,29 @@ if st.session_state.form_submitted:
         """, unsafe_allow_html=True)
 
 
-        if score <= 20 :
+        # Function to generate centered image HTML
+        def get_centered_image_html(image_path, width, caption):
+            with open(image_path, "rb") as image_file:
+                encoded = base64.b64encode(image_file.read()).decode()
+
+            # Apply text-align: center to the parent div
+            # And display: block, margin: auto for the image itself for robust centering
+            return f"""
+                <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+                    <img src="data:image/png;base64,{encoded}" alt="Image" width="{width}" style="display: block; margin: auto;">
+                    <p style="text-align: center; font-size: 0.9em; color: gray;">{caption}</p>
+                </div>
+            """
+
+        if score <= 20:
             st.success(f"**Félicitations {nom} !** ton score de risque est faible. Cela suggère que vos habitudes actuelles sont globalement favorables à une bonne santé. Continuez à prendre soin de vous et à maintenir ces pratiques saines")
-            st.image("images/Smile.png", caption="Continuez sur cette voie de bien-être !")
-        elif score <= 38 :
+            st.markdown(get_centered_image_html("images/Smile.png", 150, "Continuez sur cette voie de bien-être !"), unsafe_allow_html=True)
+        elif score <= 38:
             st.warning(f"**Attention {nom},** ton score indique un risque modéré. Ce n'est pas une fatalité, mais un signal pour envisager quelques ajustements dans votre mode de vie. De petits changements peuvent faire une grande différence pour votre bien-être futur. Nous vous encourageons à explorer les facteurs qui pourraient contribuer à ce risque et à discuter de ces points avec un professionnel de la santé.")
-            st.image("images/soso_smiley.png", caption="De petits pas peuvent mener à de grands changements.")
+            st.markdown(get_centered_image_html("images/soso_smiley.png", 150, "De petits pas peuvent mener à de grands changements."), unsafe_allow_html=True)
         else:
             st.error(f"**Important {nom} :** ton score est élevé. Il est crucial de comprendre que ceci n’est pas un diagnostic médical, mais un indicateur d'un risque potentiellement plus élevé. Nous vous recommandons vivement de consulter un professionnel de la santé pour une évaluation approfondie et des conseils personnalisés. Un examen médical permettra de mieux comprendre votre situation et de discuter des mesures préventives ou de suivi appropriées.")
-            st.image("images/sad-emoji.png", caption="Prenez votre santé en main, consultez un professionnel")
+            st.markdown(get_centered_image_html("images/sad-emoji.png", 150, "Prenez votre santé en main, consultez un professionnel"), unsafe_allow_html=True)
 
 
     except Exception as e:
@@ -377,9 +464,22 @@ if st.session_state.form_submitted:
 
     st.markdown("---")
     if st.button(" Recommencer l'évaluation"):
-        st.session_state.form_submitted = False
+        st.session_state.step = 0 # Reset to the first step
         st.session_state.inputs = {}
         st.rerun()
 
 
-st.image('images/Onco-sisters_logo-nobackground.png', caption="Powered by Onco-Systers", width=150)
+# --- Footer Logo ---
+try:
+    with open("images/Onco-sisters_logo-nobackground.png", "rb") as image_file:
+        logo_encoded = base64.b64encode(image_file.read()).decode()
+
+    logo_html = f"""
+    <div style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
+        <img src="data:image/png;base64,{logo_encoded}" alt="Onco-Sisters Logo" width="120">
+        <p style="margin-top: 5px; font-size: 14px; color: gray;">Powered by Onco-Sisters</p>
+    </div>
+"""
+    st.markdown(logo_html, unsafe_allow_html=True)
+except FileNotFoundError:
+    st.error("Error: 'images/Onco-sisters_logo-nobackground.png' not found. Please ensure the image exists in the 'images' directory.")
