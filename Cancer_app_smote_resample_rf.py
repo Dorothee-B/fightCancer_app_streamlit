@@ -82,16 +82,16 @@ st.markdown(f"""
     }}
     .stSuccess {{
         background-color: #e6ffe6;
-        color: #2e8b57;
+        color: #2a3261;
         font-size: 28px;
     }}
     .stWarning {{
         background-color: #fffacd;
-        color: #daa520;
+        color: #2a3261;
     }}
     .stError {{
         background-color: #ffe6e6;
-        color: #dc143c;
+        color: #2a3261;
     }}
     h2 {{
         color: #8B4513; 

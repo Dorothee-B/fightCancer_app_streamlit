@@ -13,6 +13,10 @@ Tester l'application en ligne sur Streamlit Cloud (aucune installation nécessai
 
 https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/
 
+### Accès rapide via QR code
+
+Scannez ce QR code avec votre téléphone pour accéder directement à l'application :
+<img src="images/qr_FightCancer_OncoSisters_streamlit.png" alt="Streamlit form - part 1" width="300"/>
 ---
 
 ## Fonctionnalités
