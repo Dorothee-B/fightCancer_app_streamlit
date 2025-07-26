@@ -35,80 +35,133 @@ except FileNotFoundError:
 
 st.markdown(f"""
 <style>
-    body {{
-                background: linear-gradient(to bottom, #fcd2e2, #fff8cc);
-            }}
-            .stApp {{
-                background: linear-gradient(to bottom, #fcd2e2, #fff8cc);
-            }}
+    :root {{
+        /* --- Base Colors & Gradients --- */
+        --app-background: linear-gradient(to bottom, #fcd2e2, #fff8cc); /* User's fixed gradient */
+        --accent-pink: #FF69B4; /* Original button pink */
+        --accent-pink-hover: #E05BA2; /* Original button hover pink */
+        --header-footer-dark: #966618; /* Dark maroon for headers/number input buttons (consistent) */
 
-    body, .stApp {{
-    color: #1a1f2b; 
+        /* --- Light Mode Specific Variables --- */
+        --lm-text-primary: #1a1f2b; /* Very dark almost black for general text & labels */
+        --lm-bg-input: #fff3f0; /* Light background for inputs */
+        --lm-border-input: #ffffff; /* White border for inputs */
+        --lm-text-input: #4b2b3a; /* Dark text inside inputs */
+            
+        --lm-alert-bg: #f2e1ce;
+        --lm-alert-text: #164a45;
+        --lm-info-bg: #f2e1ce; /* Warm beige for info/alert */
+        --lm-info-text: #164a45; /* Dark teal for info/alert text */
+        --lm-success-bg: #d9ead3; /* Soft sage green for success */
+        --lm-success-text: #1a1f2b; /* Dark text for success */
+        --lm-warning-bg: #ffe0b2; /* Light apricot/peach for warning */
+        --lm-warning-text: #1a1f2b; /* Dark text for warning */           
+        --lm-button-text: white; /* Button text */
+
+        /* --- Dark Mode Specific Variables (OPTIMIZED FOR READABILITY ON LIGHT GRADIENT, NO PURE WHITE FONT) --- */
+        --dm-text-primary: #1a1f2b; /* General text (st.write) on light gradient - remains very dark */
+        --dm-label-text: #000000; /* Pure BLACK for labels on the light gradient */
+
+        --dm-bg-input: black; /* Input backgrounds are PURE BLACK */
+        --dm-border-input: #5c626b; /* Muted grey border for inputs */
+        --dm-text-input: #454444; /* Input text inside black box - now VERY LIGHT GREY (NOT WHITE) */
+        --dm-alert-bg: black; /* Alert backgrounds are PURE BLACK */
+        --dm-alert-text: #454444; /* Alert text inside black box - now VERY LIGHT GREY (NOT WHITE) */
+        --dm-button-text: white; /* Button text (on pink button, not on app background) */
+
+        /* --- General / Shared Colors --- */
+        --focus-shadow-color: rgba(255, 105, 180, 0.4); /* Pink focus shadow for inputs */
+        --radio-accent-color: #ff69b4; /* Pink accent for radio buttons */
     }}
-    .stForm label, .stForm span, .stForm div {{
-    color: #1a1f2b;
+
+    /* === App Background & Primary Text === */
+    .stApp {{
+        background: var(--app-background);
+        color: var(--lm-text-primary); 
     }}
+
+    /* === Header Bar Image === */
     .header-bar img {{
-        max-height: 80px; 
+        max-height: 80px;
     }}
-    .header-bar h1 {{
-        color: #8B4513; 
+
+    /* === H1 & H2 Headings === */
+    .header-bar h1, h2 {{
+        color: var(--header-footer-dark);
         margin: 0;
-        font-size: 2.2em;
+        font-size: 2rem;
         text-align: center;
     }}
-    .stButton {{
-    display: flex;
-    justify-content: center;
-    margin: 10px 0; 
-    }}
 
-    .stButton > button {{
-        background-color: #FF69B4; 
-        color: white;
+    /* === Submit Buttons === */
+    .stButton > button, div.stFormSubmitButton > button {{
+        display: block;
+        margin: auto;
+        background-color: var(--accent-pink) !important;
+        color: white !important;
         border-radius: 5px;
         border: none;
         padding: 10px 20px;
-        font-size: 1em;
         font-weight: bold;
         cursor: pointer;
     }}
-    .stButton>button:hover {{
-        background-color: #E05BA2;
-        color: white;
+    .stButton > button p, div.stFormSubmitButton > button p {{
+        color: var(--lm-button-text) !important; font-size: 1.1rem !important; /* Apply white text directly to the paragraph */
     }}
-    .stAlert {{
-        border-radius: 5px;
+    .stButton > button:hover, div.stFormSubmitButton > button:hover {{
+        background-color: var(--accent-pink-hover) !important; 
+        color: var(--lm-button-text) !important;
     }}
-    .stSuccess {{
-        background-color: #e6ffe6;
-        color: #2a3261;
-        font-size: 28px;
+    .stButton > button:hover p, div.stFormSubmitButton > button:hover p {{
+        color: var(--lm-button-text) !important; /* Apply white text directly to the paragraph on hover */
     }}
-    .stWarning {{
-        background-color: #fffacd;
-        color: #2a3261;
+
+    /* --- FORM LABEL STYLING --- */
+    /* Target labels specifically within forms */
+    .stForm label, .stForm p, .stForm .st-emotion-cache-1jmve36.e1qnf0wv3 {{ 
+        color: #000000 !important; 
     }}
-    .stError {{
-        background-color: #ffe6e6;
-        color: #2a3261;
+
+    /* Ensure selectbox, radio, slider text is also readable */
+    /* This targets the displayed value/text within the components */
+    .st-emotion-cache-1jmve36.e1qnf0wv3, .st-emotion-cache-12qu8x0.eqr7sfq3, .st-emotion-cache-1w0rc60.e1gfzcvj1 {{
+        color: #1a1f2b !important; 
     }}
-    h2 {{
-        color: #8B4513; 
-        text-align: center;
+    
+    /* Input text color */
+    /* This targets the actual text typed into text_input, number_input, etc. */
+    .st-emotion-cache-1c7y2gy.e1qnf0wv3, .st-emotion-cache-1jmve36.e1qnf0wv3 {{ 
+        color: #1a1f2b !important; 
     }}
-    .stSlider .st-bb {{
-        background-color: #FF69B4; 
+
+    /* Specifically target radio button options for readability */
+    div[data-testid="stRadio"] label span {{
+        color: #1a1f2b !important; /* Dark blue for radio button options */
     }}
-    .stRadio div[role="radiogroup"] label {{
-        color: #8B4513; 
+    /* Specifically target selectbox options for readability */
+    div[data-testid="stSelectbox"] div.st-emotion-cache-nahz7x.ezrtsby2 span, /* Main displayed value */
+    div[data-testid="stSelectbox"] div[role="listbox"] div.st-emotion-cache-1jmve36.e1qnf0wv3 {{ 
+        color: #1a1f2b !important; 
     }}
-    .stSelectbox div[data-baseweb="select"] div {{
-        color: #8B4513; 
+
+    /* Ensure text within st.markdown is readable (personal response) */
+    .st-emotion-cache-ue6h4q.e1nzilhr2 p, /* General paragraph text for st.markdown */
+    .st-emotion-cache-ue6h4q.e1nzilhr2 div {{
+        color: #1a1f2b !important; 
     }}
-   
+    /* --- ALERT/SUCCESS/WARNING MESSAGE STYLING --- */
+    /* Personalized Result Messages (st.success, st.warning, st.error background) */
+    div[data-testid="stAlert"] > div:first-child  {{
+        background-color: transparent;
+        color: #966618; 
+        border-radius: 10px;
+        padding: 15px;
+        font-size: 1.3rem;
+        border: 2px solid #966618;;
+    }}
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- Header with Logo and Title ---
 st.markdown('<div class="header-bar"> <h1>Votre risque de cancer en quelques questions</h1> </div>', unsafe_allow_html=True)
@@ -171,7 +224,7 @@ if st.session_state.step == 0:
         with col_bmi:
             Age = st.number_input("Quel est votre âge ?", 18, 120, 30)
             taille_m = st.number_input("Quelle est votre taille (en mètres) ?", 1.0, 2.4, 1.70)
-         
+        st.markdown("<br>", unsafe_allow_html=True)
         submit_step0 = st.form_submit_button("Continuer")
 
         if submit_step0:
@@ -198,7 +251,7 @@ elif st.session_state.step == 1:
             soleil = st.number_input("Les 12 derniers mois, avez-vous eu des coups de soleil ? Si oui, combien ?", 0, 300, 7, help="Le nombre de fois où votre peau a été brûlée par le soleil, causant rougeur et douleur.")
         with col_sleep:
             sommeil_moy = st.number_input("Durée moyenne de sommeil par jour (en heures) ?", 0, 24, 7, help="Nombre moyen d'heures de sommeil par 24 heures")
-
+        st.markdown("<br>", unsafe_allow_html=True)
         submit_step1 = st.form_submit_button("Continuer")
 
     if submit_step1:
@@ -229,7 +282,7 @@ elif st.session_state.step == 2:
                 "Très faible, je suis relax", "Faible, quelques fois",
                 "Modéré, sous pression la moitié du temps", "Élevé, stressé(e) tous les jours"])
         Sante_general = st.selectbox("Comment évaluez-vous votre santé générale ?", ["Faible", "Moyen", "Bon", "Très bon : On va danser ce soir ?", "Excellent : Je pète la forme !"])
-        
+        st.markdown("<br>", unsafe_allow_html=True)      
         submit_step2 = st.form_submit_button("Continuer")
 
 
@@ -286,7 +339,7 @@ elif st.session_state.step == 3:
             "Blanc", "Noir Africain ou Noir Americain", "Indien Américain, Américain du nord",
             "Indien d'Asie", "Chinois", "Philippin", "Japonais", "Coréen", "Vietnamien",
             "Autre Asiatique", "Autre île du Pacifique", "Autre origine"], help="Cette information est utilisée à des fins statistiques et d'amélioration du modèle.")
-
+        st.markdown("<br>", unsafe_allow_html=True)
         submit = st.form_submit_button("Calculer")
 
         if submit:
@@ -418,7 +471,7 @@ elif st.session_state.step == 4:
                 color: #555;
                 margin: 0 5px 15px 5px;
                 user-select: none;
-                font-size: 0.9rem;
+                font-size: 0.9rem;}}
             </style>
 
             <div class="progress-bar-container">
