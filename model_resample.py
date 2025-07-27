@@ -41,7 +41,7 @@ binary_vars = [
     'CutSkipMeals2',
     'DiffPayMedBills', 'SmokeNow',
     'MedConditions_Diabetes', 'MedConditions_HighBP', 'MedConditions_HeartCondition',
-    'MedConditions_LungDisease', 'MedConditions_Depression'
+    'MedConditions_LungDisease', 'MedConditions_Depression','FamilyEverHadCancer2'
 ]
 ordinal_categorical_vars = [
     'GeneralHealth', 'HealthLimits_Pain', 'Nervous',

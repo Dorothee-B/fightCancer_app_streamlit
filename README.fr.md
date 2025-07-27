@@ -96,8 +96,8 @@ Cette application repose sur les données de l’enquête **HINTS 7 (2024)** (*H
 - **Objectif** : mesurer les comportements de santé, les habitudes de vie, et l'accès à l'information médicale dans la population américaine adulte
 - **Taille initiale de l’échantillon** : 7278 participants (enquête HINTS 7)
 - **Taille finale après nettoyage et rééchantillonnage** :
-  - **Entraînement** : 709 individus (dont classes équilibrées via SMOTE)
-  - **Test** : 178 individus (dont 87 cas à risque élevé)
+  - **Entraînement** : 708 individus (dont classes équilibrées via SMOTE)
+  - **Test** : 177 individus (dont 90 cas à risque élevé)
   Ce traitement permet d’assurer la qualité et la robustesse du modèle malgré le déséquilibre initial.
 
 - **Expériences intégrées** : 
@@ -130,9 +130,9 @@ L’algorithme de prédiction repose sur un **Random Forest Classifier**, sélec
 
 | Classe         | Précision | Rappel | F1-score | Support |
 |----------------|-----------|--------|----------|---------|
-| 0 (faible risque) | 0.76   | 0.70   | 0.73     | 91      |
-| 1 (haut risque)   | 0.71   | 0.77   | 0.74     | 87      |
-| **Accuracy globale** |         |        | **0.74** | 178     |
+| 0 (faible risque) | 0.75   | 0.74   | 0.74     | 87      |
+| 1 (haut risque)   | 0.75   | 0.77   | 0.76     | 90      |
+| **Accuracy globale** |         |        | **0.75** | 177     |
 
 Le modèle **maximise le rappel de la classe "à risque" (0.77)** pour ne pas rater de cas potentiellement graves.
 

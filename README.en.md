@@ -92,8 +92,8 @@ This application is based on the **HINTS 7 (2024)** (Health Information National
 - **Initial sample size:** 7278 respondents
 - **After data cleaning, filtering, resampling, the final modeling dataset was reduced to:**
 
-  - **Training set:** 709 individuals
-  - **Test set:** 178 individuals, including 87 high-risk cases
+  - **Training set:** 708 individuals
+  - **Test set:** 177 individuals, including 90 high-risk cases
 
 - **Goal**: to assess health behaviors, lifestyle, and access to medical information among U.S. adults
 - **Built-in experiments**:
@@ -129,9 +129,9 @@ The prediction algorithm is based on a **Random Forest Classifier**, selected af
 
 | Class             | Precision | Recall | F1-score | Support |
 |-------------------|-----------|--------|----------|---------|
-| 0 (low risk)      | 0.76      | 0.70   | 0.73     | 91      |
-| 1 (high risk)     | 0.71      | 0.77   | 0.74     | 87      |
-| **Overall Accuracy** |         |        | **0.74** | 178     |
+| 0 (low risk)      | 0.75      | 0.74   | 0.74     | 87      |
+| 1 (high risk)     | 0.75      | 0.77   | 0.76     | 90      |
+| **Overall Accuracy** |         |        | **0.75** | 177     |
 
 The model **maximizes recall for the "high-risk" class (0.77)** to avoid missing potentially serious cases.
 

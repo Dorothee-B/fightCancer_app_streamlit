@@ -78,6 +78,7 @@ st.markdown(f"""
     .stApp {{
         background: var(--app-background);
         color: var(--lm-text-primary); 
+        font-size:1.1rem; !important
     }}
 
     /* === Header Bar Image === */
@@ -119,7 +120,7 @@ st.markdown(f"""
     /* --- FORM LABEL STYLING --- */
     /* Target labels specifically within forms */
     .stForm label, .stForm p, .stForm .st-emotion-cache-1jmve36.e1qnf0wv3 {{ 
-        color: #000000 !important; 
+        color: #000000 !important; font-size: 1rem !important;
     }}
 
     /* Ensure selectbox, radio, slider text is also readable */
@@ -180,7 +181,7 @@ raw_features_for_pipeline_input = [
     'GeneralHealth', 'HealthLimits_Pain', 'Nervous',
     'IncomeRanges', 'Education', 'Birthcountry',
     'Fruit2', 'Vegetables2', 'TimesStrengthTraining', 'Drink_nb_PerMonth',
-    'ChildrenInHH', 'TotalHousehold', 'TimesSunburned', 'BMI', 'Age', 'SleepWeekdayHr'
+    'ChildrenInHH', 'TotalHousehold', 'TimesSunburned', 'BMI', 'Age', 'SleepWeekdayHr', 'FamilyEverHadCancer2'
 ]
 
 pipeline = None # Initialize pipeline to None
@@ -253,6 +254,7 @@ elif st.session_state.step == 1:
             sommeil_moy = st.number_input("Durée moyenne de sommeil par jour (en heures) ?", 0, 24, 7, help="Nombre moyen d'heures de sommeil par 24 heures")
         st.markdown("<br>", unsafe_allow_html=True)
         submit_step1 = st.form_submit_button("Continuer")
+        
 
     if submit_step1:
         # Store inputs for this step
@@ -277,7 +279,8 @@ elif st.session_state.step == 2:
             poumon = st.radio("Avez-vous des problèmes pulmonaires ?", ["Oui", "Non"])
         with col_health3:
             depression = st.radio("Souffrez-vous de dépression ?", ["Oui", "Non"])
-            douleur = st.radio("Souffrez-vous de douleu r chronique ?", ["Oui", "Non"])
+            douleur = st.radio("Souffrez-vous de douleur chronique ?", ["Oui", "Non"])
+        FamilyEverHadCancer2=st.radio("L’un de vos parents biologiques au premier ou au deuxième degré (parents, frères ou sœurs, enfants, grands-parents, oncles ou tantes, neveux ou nièces) a-t-il déjà eu un cancer ?", ["Oui", "Non"])
         nervous = st.selectbox("Quel est votre niveau de stress ?", [
                 "Très faible, je suis relax", "Faible, quelques fois",
                 "Modéré, sous pression la moitié du temps", "Élevé, stressé(e) tous les jours"])
@@ -296,6 +299,7 @@ elif st.session_state.step == 2:
         st.session_state.inputs["nervous"] = nervous
         st.session_state.inputs["douleur"] = douleur
         st.session_state.inputs["Sante_general"] = Sante_general
+        st.session_state.inputs["FamilyEverHadCancer2"] = FamilyEverHadCancer2
         st.session_state.step = 3 # Move to next step
         st.rerun() # Rerun to display the next step
 
@@ -419,7 +423,8 @@ elif st.session_state.step == 4:
         "GeneralHealth": sante_general_map[data["Sante_general"]],
         "Birthcountry": ethnie_map[data["ethnie"]],
         "CutSkipMeals2": diff_map[data["Skip_meal"]],
-        "DiffPayMedBills": diff_map[data["Diff_financiere"]]
+        "DiffPayMedBills": diff_map[data["Diff_financiere"]],
+        "FamilyEverHadCancer2": bool_map[data["FamilyEverHadCancer2"]]
     }
 
     df_form = pd.DataFrame([input_data_for_pipeline])

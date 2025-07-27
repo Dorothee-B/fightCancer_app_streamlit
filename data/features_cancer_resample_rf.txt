@@ -35,3 +35,4 @@ MedConditions_HighBP
 MedConditions_HeartCondition
 MedConditions_LungDisease
 MedConditions_Depression
+FamilyEverHadCancer2
