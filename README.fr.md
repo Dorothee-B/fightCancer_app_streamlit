@@ -37,6 +37,10 @@ Scannez ce QR code avec votre téléphone pour accéder directement à l'applica
 <img src="images/App_home_screenshot.png" alt="Streamlit form - part 1" width="300"/>
 <br/>
 <img src="images/App_home_screenshot1.png" alt="Streamlit form - part 2" width="300"/>
+<br/>
+<img src="images/App_home_screenshot2.png" alt="Streamlit form - part 3" width="300"/>
+<br/>
+<img src="images/App_home_screenshot3.png" alt="Streamlit form - part 3" width="300"/>
 
 ### Message personnalisé selon le score
 <img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="300"/>
@@ -148,7 +152,7 @@ Le modèle **maximise le rappel de la classe "à risque" (0.77)** pour ne pas ra
 - Aasiyah B.
 - Dorothée B.
 
-<img src="images/Onco-sisters_logo.png" alt="Onco-sisters_logo" width="100"/>
+<img src="images/Onco-sisters_logo-nobackground.png" alt="Onco-sisters_logo" width="100"/>
 
 ## Contacts
 Pour toute question ou suggestion, n’hésitez pas à me contacter : 

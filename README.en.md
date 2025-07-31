@@ -36,6 +36,10 @@ Scan this QR code with your phone to open the app instantly: <br/>
 <img src="images/App_home_screenshot.png" alt="Streamlit form - part 1" width="300"/>
 <br/>
 <img src="images/App_home_screenshot1.png" alt="Streamlit form - part 2" width="300"/>
+<br/>
+<img src="images/App_home_screenshot2.png" alt="Streamlit form - part 3" width="300"/>
+<br/>
+<img src="images/App_home_screenshot3.png" alt="Streamlit form - part 3" width="300"/>
 
 ### Personalized Message Based on Risk Score
 <img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="300"/>

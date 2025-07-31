@@ -32,7 +32,6 @@ except FileNotFoundError:
 
 
 # --- Custom CSS for styling ---
-
 st.markdown(f"""
 <style>
     :root {{
@@ -78,7 +77,7 @@ st.markdown(f"""
     .stApp {{
         background: var(--app-background);
         color: var(--lm-text-primary); 
-        font-size:1.1rem; !important
+        font-size:1.1rem !important;
     }}
 
     /* === Header Bar Image === */
@@ -102,7 +101,7 @@ st.markdown(f"""
         color: white !important;
         border-radius: 5px;
         border: none;
-        padding: 10px 20px;
+        padding: 8px 15px;
         font-weight: bold;
         cursor: pointer;
     }}
@@ -117,27 +116,57 @@ st.markdown(f"""
         color: var(--lm-button-text) !important; /* Apply white text directly to the paragraph on hover */
     }}
 
-    /* --- FORM LABEL STYLING --- */
-    /* Target labels specifically within forms */
+    /* --- RETURN BUTTON STYLING (Link-style) --- */
+    /* `kind="secondary"' feature in Streamlit that helps distinguish buttons*/
+    .stButton button[kind="secondary"] {{
+        background-color: transparent !important;
+        border: none !important;
+        color: var(--accent-pink) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        text-align: left !important;
+        cursor: pointer;
+        white-space: nowrap !important; 
+    }}
+
+    /* This targets the paragraph element inside the button to style the text */
+    .stButton button[kind="secondary"] p {{
+        font-size: 1.1rem !important;
+        font-weight: normal !important;
+        color: var(--accent-pink) !important;
+        margin: 0 !important;
+    }}
+
+    .stButton button[kind="secondary"]:hover {{
+        background-color: transparent !important;
+        color: var(--accent-pink-hover) !important;
+        text-decoration: underline !important; /* Adds an underline like a real link */
+    }}
+
+    /* This ensures the paragraph text also changes color on hover. */
+    .stButton button[kind="secondary"]:hover p {{
+        color: var(--accent-pink-hover) !important;
+    }}   
+
+    /* --- FORM LABEL STYLING within form--- */
     .stForm label, .stForm p, .stForm .st-emotion-cache-1jmve36.e1qnf0wv3 {{ 
-        color: #000000 !important; font-size: 1rem !important;
+        color: #000000 !important; 
+        font-size: 1rem !important;
     }}
 
     /* Ensure selectbox, radio, slider text is also readable */
-    /* This targets the displayed value/text within the components */
     .st-emotion-cache-1jmve36.e1qnf0wv3, .st-emotion-cache-12qu8x0.eqr7sfq3, .st-emotion-cache-1w0rc60.e1gfzcvj1 {{
         color: #1a1f2b !important; 
     }}
     
     /* Input text color */
-    /* This targets the actual text typed into text_input, number_input, etc. */
     .st-emotion-cache-1c7y2gy.e1qnf0wv3, .st-emotion-cache-1jmve36.e1qnf0wv3 {{ 
         color: #1a1f2b !important; 
     }}
 
     /* Specifically target radio button options for readability */
     div[data-testid="stRadio"] label span {{
-        color: #1a1f2b !important; /* Dark blue for radio button options */
+        color: #1a1f2b !important; 
     }}
     /* Specifically target selectbox options for readability */
     div[data-testid="stSelectbox"] div.st-emotion-cache-nahz7x.ezrtsby2 span, /* Main displayed value */
@@ -162,7 +191,6 @@ st.markdown(f"""
     }}
 </style>
 """, unsafe_allow_html=True)
-
 
 # --- Header with Logo and Title ---
 st.markdown('<div class="header-bar"> <h1>Votre risque de cancer en quelques questions</h1> </div>', unsafe_allow_html=True)
@@ -201,7 +229,7 @@ except Exception as e:
     
     pipeline = MockPipeline()
 
-# Initialisation sécurisée des états de session
+# Secure initialization of session states
 if "step" not in st.session_state:
     st.session_state.step = 0
 if "inputs" not in st.session_state: # Ensure inputs dictionary is always there
@@ -209,11 +237,46 @@ if "inputs" not in st.session_state: # Ensure inputs dictionary is always there
 if "form_submitted" not in st.session_state:
     st.session_state.form_submitted = False
 
-# --- Form Steps ---
+# --- Function to handle going back a step ---
+def go_back():
+    st.session_state.step -= 1
+    st.rerun()
 
+# --- Function to add the return button ---
+def add_return_button():
+    if st.session_state.step > 0 and st.session_state.step < 4:
+        button_key = f"return_link_step_{st.session_state.step}"
+        # We'll use a real button but style it to look like a link.
+        # This is the most reliable way to trigger a Python function.
+        with st.container():
+            col1, col2 = st.columns([1, 10]) # Use columns to place it on the far left
+            with col1:
+                if st.button("⬅ Retour", key=button_key, help="Retour à la page précédente"):
+                    go_back()
+
+# --- HTML PROGRESS BAR CODE ---
+if st.session_state.step < 4:
+    current_step = st.session_state.step + 1
+    total_steps = 4
+    progress_percentage = round((current_step / total_steps) * 100)
+    
+    # Define the colors from your app's style
+    track_color = "#edebeb"
+    fill_gradient = "linear-gradient(90deg, #c6f1c6 0%, #f7c6c7 100%)" 
+
+    st.markdown(f"""
+        <div style="margin-top: 1.5rem; color: #1a1f2b; font-weight: 600;">
+            Progression du questionnaire: {progress_percentage}%
+        </div>
+        <div style="background-color: {track_color}; border-radius: 20px; height: 10px; width: 100%; margin-bottom: 1rem;">
+            <div style="background: {fill_gradient}; border-radius: 20px; height: 100%; width: {progress_percentage}%;"></div>
+        </div>
+    """, unsafe_allow_html=True)
+
+# --- Form Steps ---
 if st.session_state.step == 0:
     with st.form("step_0_form"):
-        st.markdown("<h2>Un peu de vous </h2>", unsafe_allow_html=True)
+        st.markdown("<h2>Un peu de vous</h2>", unsafe_allow_html=True)
 
         BirthSex = st.radio("Quel est votre sexe de naissance ?", ["Femme", "Homme", "Ne souhaite pas répondre"])
 
@@ -230,15 +293,18 @@ if st.session_state.step == 0:
 
         if submit_step0:
             # Store inputs for this step
-            st.session_state.inputs["BirthSex"] = BirthSex
-            st.session_state.inputs["prenom"] = prenom
-            st.session_state.inputs["Age"] = Age
-            st.session_state.inputs["poids"] = poids
-            st.session_state.inputs["taille_m"] = taille_m
+            st.session_state.inputs.update({
+                "BirthSex": BirthSex,
+                "prenom": prenom,
+                "Age": Age,
+                "poids": poids,
+                "taille_m": taille_m
+            })
             st.session_state.step = 1 # Move to next step
             st.rerun() # Rerun to display the next step
  
-elif st.session_state.step == 1:       
+elif st.session_state.step == 1:
+           
     with st.form("step_1_form"):                  
         st.markdown("<h2> Votre mode de vie </h2>", unsafe_allow_html=True)
         col_smoke, col_alcohol = st.columns(2)
@@ -253,20 +319,41 @@ elif st.session_state.step == 1:
         with col_sleep:
             sommeil_moy = st.number_input("Durée moyenne de sommeil par jour (en heures) ?", 0, 24, 7, help="Nombre moyen d'heures de sommeil par 24 heures")
         st.markdown("<br>", unsafe_allow_html=True)
+
+        st.markdown("<h2>Nutrition et Activités</h2>", unsafe_allow_html=True)
+        col_fruit, col_veg, col_sport = st.columns(3)
+        with col_fruit:
+            fruits = st.select_slider("Combien de portions de fruits mangez-vous par jour ?", [
+                "0", "1/2 portion ou moins", "1/2 à 1 portion", "1 à 2 portions",
+                "2 à 3 portions", "3 à 4 portions", "plus de 4"], help="Une portion correspond à une pomme moyenne, une banane, ou une tasse de petits fruits.")
+        with col_veg:
+            legumes = st.select_slider("Combien de portions de légumes mangez-vous par jour ?", [
+                "0", "1/2 portion ou moins", "1/2 à 1 portion", "1 à 2 portions",
+                "2 à 3 portions", "3 à 4 portions", "plus de 4"], help="Une portion correspond à une tasse de légumes verts à feuilles ou une demi-tasse de légumes coupés.")
+        with col_sport:
+            sport = st.select_slider("Combien de jours par semaine faites-vous de l'exercice intense ?", ["0", "1", "2", "3", "4", "5", "6", "7"], help="Nombre de séance de cardio, renforcement musculaire par semaine.")
+
         submit_step1 = st.form_submit_button("Continuer")
-        
+    add_return_button()   
 
     if submit_step1:
         # Store inputs for this step
-        st.session_state.inputs["fumeur"] = fumeur
-        st.session_state.inputs["alcohol"] = alcohol
-        st.session_state.inputs["soleil"] = soleil
-        st.session_state.inputs["sommeil_moy"] = sommeil_moy
+        st.session_state.inputs.update({
+            "fumeur": fumeur,
+            "alcohol": alcohol,
+            "soleil": soleil,
+            "sommeil_moy": sommeil_moy,
+            "fruits": fruits,
+            "legumes": legumes,
+             "sport": sport
+        })
+
         st.session_state.step = 2 # Move to next step
         st.rerun() # Rerun to display the next step
 
 
-elif st.session_state.step == 2:       
+elif st.session_state.step == 2:
+           
     with st.form("step_2_form"):
         st.markdown("<h2>Votre santé</h2>", unsafe_allow_html=True)
         col_health1, col_health2, col_health3 = st.columns(3)
@@ -287,40 +374,26 @@ elif st.session_state.step == 2:
         Sante_general = st.selectbox("Comment évaluez-vous votre santé générale ?", ["Faible", "Moyen", "Bon", "Très bon : On va danser ce soir ?", "Excellent : Je pète la forme !"])
         st.markdown("<br>", unsafe_allow_html=True)      
         submit_step2 = st.form_submit_button("Continuer")
-
+    add_return_button()   
 
     if submit_step2:
         # Store inputs for this step
-        st.session_state.inputs["diabete"] = diabete
-        st.session_state.inputs["cardiaque"] = cardiaque
-        st.session_state.inputs["hypertension"] = hypertension
-        st.session_state.inputs["poumon"] = poumon
-        st.session_state.inputs["depression"] = depression
-        st.session_state.inputs["nervous"] = nervous
-        st.session_state.inputs["douleur"] = douleur
-        st.session_state.inputs["Sante_general"] = Sante_general
-        st.session_state.inputs["FamilyEverHadCancer2"] = FamilyEverHadCancer2
+        st.session_state.inputs.update({
+            "diabete": diabete,
+            "cardiaque": cardiaque,
+            "hypertension": hypertension,
+            "poumon": poumon,
+            "depression": depression,
+            "nervous": nervous,
+            "douleur": douleur,
+            "Sante_general": Sante_general,
+            "FamilyEverHadCancer2": FamilyEverHadCancer2
+        })
         st.session_state.step = 3 # Move to next step
         st.rerun() # Rerun to display the next step
 
-
-
-elif st.session_state.step == 3:       
-    with st.form("step_3_form"):
-        st.markdown("<h2>Nutrition et Activités</h2>", unsafe_allow_html=True)
-        col_fruit, col_veg, col_sport = st.columns(3)
-        with col_fruit:
-            fruits = st.select_slider("Combien de portions de fruits mangez-vous par jour ?", [
-                "0", "1/2 portion ou moins", "1/2 à 1 portion", "1 à 2 portions",
-                "2 à 3 portions", "3 à 4 portions", "plus de 4"], help="Une portion correspond à une pomme moyenne, une banane, ou une tasse de petits fruits.")
-        with col_veg:
-            legumes = st.select_slider("Combien de portions de légumes mangez-vous par jour ?", [
-                "0", "1/2 portion ou moins", "1/2 à 1 portion", "1 à 2 portions",
-                "2 à 3 portions", "3 à 4 portions", "plus de 4"], help="Une portion correspond à une tasse de légumes verts à feuilles ou une demi-tasse de légumes coupés.")
-        with col_sport:
-            sport = st.select_slider("Combien de jours par semaine faites-vous de l'exercice intense ?", ["0", "1", "2", "3", "4", "5", "6", "7"], help="Nombre de séance de cardio, renforcement musculaire par semaine.")
-
-
+elif st.session_state.step == 3:
+    with st.form("step_3_form"): 
         st.markdown("<h2>Home, sweet home </h2>", unsafe_allow_html=True)
         revenu = st.select_slider("Quel est votre revenu annuel net approximatif ?", [
             " 0 à 730€ mensuel", "730€ à 1099€ mensuel", "1100€ à 1469€ mensuel",
@@ -345,13 +418,9 @@ elif st.session_state.step == 3:
             "Autre Asiatique", "Autre île du Pacifique", "Autre origine"], help="Cette information est utilisée à des fins statistiques et d'amélioration du modèle.")
         st.markdown("<br>", unsafe_allow_html=True)
         submit = st.form_submit_button("Calculer")
-
         if submit:
             # Store inputs for this step (all remaining inputs)
             st.session_state.inputs.update({
-                "fruits": fruits,
-                "legumes": legumes,
-                "sport": sport,
                 "revenu": revenu,
                 "etude": etude,
                 "enfants": enfants,
@@ -365,8 +434,7 @@ elif st.session_state.step == 3:
             st.session_state.step = 4 # Move to next step
             st.rerun() 
 
-            
-# --- Display Results 
+# --- Display Results ---
 elif st.session_state.step == 4:  
 #if st.session_state.form_submitted:
     data = st.session_state.inputs
@@ -521,7 +589,7 @@ elif st.session_state.step == 4:
         st.error(f"Une erreur est survenue lors du calcul de la prédiction. Veuillez vérifier vos données et réessayer. Détails de l'erreur : {e}")
 
     st.markdown("---")
-    if st.button(" Recommencer l'évaluation"):
+    if st.button(" Recommencer l'évaluation", type="primary"):
         st.session_state.step = 0 # Reset to the first step
         st.session_state.inputs = {}
         st.rerun()
