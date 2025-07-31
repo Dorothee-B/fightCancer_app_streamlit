@@ -4,7 +4,6 @@ An interactive **Streamlit application** designed to assess the risk of developi
 
 The model uses a **Random Forest classifier** trained with **SMOTE resampling** to correct class imbalance.
 
----
 
 ## Try the App via Streamlit Cloud
 
@@ -18,7 +17,8 @@ https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/
 Scan this QR code with your phone to open the app instantly: <br/>
 
 <img src="images/qr_FightCancer_OncoSisters_streamlit.png" alt="Streamlit form - part 1" width="200"/>
----
+
+
 
 ## Features
 
@@ -28,7 +28,7 @@ Scan this QR code with your phone to open the app instantly: <br/>
 - Personalized health advice based on the predicted score  
 - Clear, user-friendly results interface  
 
----
+
 
 ## Application Preview
 

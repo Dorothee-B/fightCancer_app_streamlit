@@ -266,7 +266,7 @@ if st.session_state.step < 4:
 
     st.markdown(f"""
         <div style="margin-top: 1.5rem; color: #1a1f2b; font-weight: 600;">
-            Progression du questionnaire: {progress_percentage}%
+            Progression du questionnaire: étape {current_step} / 4
         </div>
         <div style="background-color: {track_color}; border-radius: 20px; height: 10px; width: 100%; margin-bottom: 1rem;">
             <div style="background: {fill_gradient}; border-radius: 20px; height: 100%; width: {progress_percentage}%;"></div>
@@ -418,7 +418,9 @@ elif st.session_state.step == 3:
             "Autre Asiatique", "Autre île du Pacifique", "Autre origine"], help="Cette information est utilisée à des fins statistiques et d'amélioration du modèle.")
         st.markdown("<br>", unsafe_allow_html=True)
         submit = st.form_submit_button("Calculer")
-        if submit:
+    add_return_button()   
+
+    if submit:
             # Store inputs for this step (all remaining inputs)
             st.session_state.inputs.update({
                 "revenu": revenu,

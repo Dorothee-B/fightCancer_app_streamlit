@@ -4,7 +4,6 @@ Une application **Streamlit interactive** permettant d’évaluer le **risque de
 
 Le modèle utilise un classifieur **Random Forest**  entraîné avec un **réchantillonnage et correctif SMOTE** pour corriger le déséquilibrexs des classes.
 
----
 
 ## Tester l'application en ligne sur Streamlit Cloud
 
@@ -18,7 +17,8 @@ https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/
 Scannez ce QR code avec votre téléphone pour accéder directement à l'application : <br/>
 
 <img src="images/qr_FightCancer_OncoSisters_streamlit.png" alt="Streamlit form - part 1" width="200"/>
----
+
+
 
 ## Fonctionnalités
 
@@ -29,7 +29,7 @@ Scannez ce QR code avec votre téléphone pour accéder directement à l'applica
 - Conseils santé adaptés selon le niveau de risque
 - Interface claire et intuitive des résultats
 
----
+
 
 ## Aperçu de l'application
 
@@ -152,7 +152,7 @@ Le modèle **maximise le rappel de la classe "à risque" (0.77)** pour ne pas ra
 - Aasiyah B.
 - Dorothée B.
 
-<img src="images/Onco-sisters_logo-nobackground.png" alt="Onco-sisters_logo" width="100"/>
+<img src="images/Onco-sisters_logo.png" alt="Onco-sisters_logo" width="100"/>
 
 ## Contacts
 Pour toute question ou suggestion, n’hésitez pas à me contacter : 
