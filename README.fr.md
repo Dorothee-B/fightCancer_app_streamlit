@@ -27,7 +27,7 @@ Scannez ce QR code avec votre téléphone pour accéder directement à l'applica
 - Affichage d'un risque de développer un cancer sous forme de pourcentage (0% = faible risque à 100% = risque très élevé)
 - Message personnalisé selon le score
 - Conseils santé adaptés selon le niveau de risque
-- Interface claire et intuitive des résultats
+- Interface utilisateur claire et intuitive
 
 
 
@@ -129,18 +129,39 @@ L’algorithme de prédiction repose sur un **Random Forest Classifier**, sélec
   - Le modèle **Random Forest** a été retenu pour son bon compromis entre **performance**, **robustesse** et **interprétabilité**
   - Le **Recall pour la classe “à risque”** étant prioritaire dans cette problématique de santé, il a été utilisé comme critère principal
 
+## Hyperparamètres du modèle final Random Forest
+Le modèle a été optimisé par recherche d'hyperparamètres. Les meilleurs paramètres trouvés :
+- max_depth: 20  
+- min_samples_leaf: 2  
+- min_samples_split: 5  
+- n_estimators: 200  
+
+Ces réglages ont permis d'améliorer la précision et la robustesse du modèle.
 
 ## 📈 Résultats du modèle Random Forest
 
 | Classe         | Précision | Rappel | F1-score | Support |
 |----------------|-----------|--------|----------|---------|
-| 0 (faible risque) | 0.74   | 0.70   | 0.72     | 87      |
-| 1 (haut risque)   | 0.73   | 0.77   | 0.75     | 90      |
-| **Accuracy globale** |         |        | **0.73** | 177     |
+| 0 (faible risque) | 0.76   | 0.70   | 0.73     | 87      |
+| 1 (haut risque)   | 0.73   | 0.79   | 0.76     | 90      |
+| **Accuracy globale** |         |        | **0.75** | 177     |
 
-Le modèle **maximise le rappel de la classe "à risque" (0.77)** pour ne pas rater de cas potentiellement graves.
+Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas rater de cas potentiellement graves.
 
 - Le modèle a été sauvegardé et intégré dans l’application avec joblib.
+
+## Validation croisée (5 plis)
+Une validation croisée à 5 plis a été effectuée pour évaluer la performance généralisée du modèle.
+
+| Métrique      | Plis 1 | Plis 2 | Plis 3 | Plis 4 | Plis 5 | Moyenne   | Écart-type |
+| ------------- | ------ | ------ | ------ | ------ | ------ | --------- | ---------- |
+| **Accuracy**  | 0.695  | 0.723  | 0.712  | 0.761  | 0.670  | **0.712** | ±0.030     |
+| **Précision** | 0.657  | 0.680  | 0.693  | 0.747  | 0.633  | **0.682** | ±0.039     |
+| **Rappel**    | 0.765  | 0.800  | 0.718  | 0.765  | 0.738  | **0.757** | ±0.028     |
+| **F1-score**  | 0.707  | 0.735  | 0.705  | 0.756  | 0.681  | **0.717** | ±0.026     |
+
+
+Ces résultats confirment la stabilité et la fiabilité du modèle sur des échantillons variés, notamment en ce qui concerne le rappel sur la classe "à risque".
 
 ---
 

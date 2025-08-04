@@ -1,5 +1,6 @@
 SmokeNow
 GeneralHealth
+Nervous
 IncomeRanges
 Education
 Fruit2
@@ -35,4 +36,3 @@ MedConditions_LungDisease
 MedConditions_Depression
 FamilyEverHadCancer2
 HealthLimits_Pain
-Nervous

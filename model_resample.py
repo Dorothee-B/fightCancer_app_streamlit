@@ -40,10 +40,10 @@ print(balanced_df['EverHadCancer'].value_counts())
 binary_vars = [
     'MedConditions_Diabetes', 'MedConditions_HighBP', 'MedConditions_HeartCondition',
     'MedConditions_LungDisease', 'MedConditions_Depression','FamilyEverHadCancer2', 
-    'HealthLimits_Pain', 'Nervous'
+    'HealthLimits_Pain' 
 ]
 ordinal_categorical_vars = [ 
-    'SmokeNow','GeneralHealth',  
+    'SmokeNow','GeneralHealth', 'Nervous',
     'IncomeRanges', 'Education', 'Fruit2', 'Vegetables2', 'CutSkipMeals2',
     'DiffPayMedBills'   
 ]
@@ -93,7 +93,12 @@ preprocessor = ColumnTransformer(
 pipeline = Pipeline([
     ('preprocess', preprocessor),
     ('smote', SMOTE(random_state=142)), # SMOTE
-    ('model', RandomForestClassifier(n_estimators=100, random_state=142))
+    ('model', RandomForestClassifier(
+        n_estimators=200,
+        max_depth=20,
+        min_samples_leaf=2,
+        min_samples_split=5,
+        random_state=142))
 ])
 
 # Split et train
