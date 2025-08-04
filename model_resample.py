@@ -38,21 +38,21 @@ print(balanced_df['EverHadCancer'].value_counts())
 
 # Variables (defined in logical order for the preprocessor)
 binary_vars = [
-    'CutSkipMeals2',
-    'DiffPayMedBills', 'SmokeNow',
     'MedConditions_Diabetes', 'MedConditions_HighBP', 'MedConditions_HeartCondition',
-    'MedConditions_LungDisease', 'MedConditions_Depression','FamilyEverHadCancer2'
+    'MedConditions_LungDisease', 'MedConditions_Depression','FamilyEverHadCancer2', 
+    'HealthLimits_Pain', 'Nervous'
 ]
-ordinal_categorical_vars = [
-    'GeneralHealth', 'HealthLimits_Pain', 'Nervous',
-    'IncomeRanges', 'Education'
+ordinal_categorical_vars = [ 
+    'SmokeNow','GeneralHealth',  
+    'IncomeRanges', 'Education', 'Fruit2', 'Vegetables2', 'CutSkipMeals2',
+    'DiffPayMedBills'   
 ]
 string_categorical_vars = ['Birthcountry', 'BirthSex']  # One hot encoder
 
-continuous_vars = [
-    'Fruit2', 'Vegetables2', 'TimesStrengthTraining', 'Drink_nb_PerMonth',
-    'ChildrenInHH', 'TotalHousehold', 'TimesSunburned', 'BMI', 'Age', 'SleepWeekdayHr'
-]
+continuous_vars = ['BMI', 'Age', 
+                   'SleepWeekdayHr', 'TimesSunburned', 'TimesStrengthTraining',
+                   'ChildrenInHH', 'TotalHousehold', 'Drink_nb_PerMonth'
+                   ]
 
 target = 'EverHadCancer'
 
