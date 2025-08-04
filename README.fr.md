@@ -146,7 +146,7 @@ Ces réglages ont permis d'améliorer la précision et la robustesse du modèle.
 | 1 (haut risque)   | 0.73   | 0.79   | 0.76     | 90      |
 | **Accuracy globale** |         |        | **0.75** | 177     |
 
-Le modèle **maximise le rappel de la classe "à risque" (0.75)** pour ne pas rater de cas potentiellement graves.
+Le modèle **maximise le rappel de la classe "à risque" (0.79)** pour ne pas rater de cas potentiellement graves.
 
 - Le modèle a été sauvegardé et intégré dans l’application avec joblib.
 

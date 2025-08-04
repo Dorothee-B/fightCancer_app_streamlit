@@ -4,6 +4,7 @@ An interactive **Streamlit application** designed to assess the risk of developi
 
 The model uses a **Random Forest classifier** trained with **SMOTE resampling** to correct class imbalance.
 
+---
 
 ## Try the App via Streamlit Cloud
 
@@ -12,13 +13,7 @@ Click below to launch the app directly in your browser (no installation needed):
 
 https://fightcancerappapp-mq3mhixvyhxr5jne567rt6.streamlit.app/
 
-### Quick access via QR code
-
-Scan this QR code with your phone to open the app instantly: <br/>
-
-<img src="images/qr_FightCancer_OncoSisters_streamlit.png" alt="Streamlit form - part 1" width="200"/>
-
-
+---
 
 ## Features
 
@@ -28,7 +23,7 @@ Scan this QR code with your phone to open the app instantly: <br/>
 - Personalized health advice based on the predicted score  
 - Clear, user-friendly results interface  
 
-
+---
 
 ## Application Preview
 
@@ -36,10 +31,6 @@ Scan this QR code with your phone to open the app instantly: <br/>
 <img src="images/App_home_screenshot.png" alt="Streamlit form - part 1" width="300"/>
 <br/>
 <img src="images/App_home_screenshot1.png" alt="Streamlit form - part 2" width="300"/>
-<br/>
-<img src="images/App_home_screenshot2.png" alt="Streamlit form - part 3" width="300"/>
-<br/>
-<img src="images/App_home_screenshot3.png" alt="Streamlit form - part 3" width="300"/>
 
 ### Personalized Message Based on Risk Score
 <img src="images/Result_app_screenshot.png" alt="Message pour un risque modéré / haut" width="300"/>
@@ -96,8 +87,8 @@ This application is based on the **HINTS 7 (2024)** (Health Information National
 - **Initial sample size:** 7278 respondents
 - **After data cleaning, filtering, resampling, the final modeling dataset was reduced to:**
 
-  - **Training set:** 708 individuals
-  - **Test set:** 177 individuals, including 90 high-risk cases
+  - **Training set:** 709 individuals
+  - **Test set:** 178 individuals, including 87 high-risk cases
 
 - **Goal**: to assess health behaviors, lifestyle, and access to medical information among U.S. adults
 - **Built-in experiments**:
@@ -117,7 +108,7 @@ The prediction algorithm is based on a **Random Forest Classifier**, selected af
 - **Preprocessing:**
   - Data cleaning from the HINTS 7 survey
   - Encoding of categorical variables
-  - Manualy Resampling and Class balancing using **SMOTE** (Synthetic Minority Over-sampling Technique)
+  - Manually Resampling and Class balancing using **SMOTE** (Synthetic Minority Over-sampling Technique) is used to create synthetic samples of the minority class to balance the dataset and improve model performance.
 
 - **Model comparison:**
   - Automated benchmarking via **PyCaret** with models such as Random Forest, Gradient Boosting, XGBoost, Logistic Regression, etc.
@@ -128,19 +119,42 @@ The prediction algorithm is based on a **Random Forest Classifier**, selected af
   - **Recall on the “high-risk” class** was prioritized due to the health-critical nature of the task
 
 ---
+### Hyperparameters of the final Random Forest model
+
+The model was fine-tuned using hyperparameter optimization. The best parameters found were:
+
+- max_depth: 20  
+- min_samples_leaf: 2  
+- min_samples_split: 5  
+- n_estimators: 200  
+
+These settings helped improve model accuracy and robustness.
+
 
 ### 📈 Random Forest Model Results
 
 | Class             | Precision | Recall | F1-score | Support |
 |-------------------|-----------|--------|----------|---------|
-| 0 (low risk)      | 0.74      | 0.70   | 0.72     | 87      |
-| 1 (high risk)     | 0.73      | 0.77   | 0.75     | 90      |
-| **Overall Accuracy** |         |        | **0.73** | 177     |
+| 0 (low risk)      | 0.76      | 0.70   | 0.73     | 87      |
+| 1 (high risk)     | 0.73      | 0.79   | 0.76     | 90      |
+| **Overall Accuracy** |         |        | **0.75** | 177     |
 
-The model **maximizes recall for the "high-risk" class (0.76)** to avoid missing potentially serious cases.
+The model **maximizes recall for the "high-risk" class (0.79)** to avoid missing potentially serious cases.
 
 - The trained model was saved and integrated into the app using `joblib`.
 
+###  Cross-Validation (5-Fold)
+To better assess the generalization performance of the model, a 5-fold cross-validation was performed using the final pipeline and selected hyperparameters.
+
+| Metric        | Fold 1 | Fold 2 | Fold 3 | Fold 4 | Fold 5 | Mean      | Std. Dev |
+| ------------- | ------ | ------ | ------ | ------ | ------ | --------- | -------- |
+| **Accuracy**  | 0.695  | 0.723  | 0.712  | 0.761  | 0.670  | **0.712** | ±0.030   |
+| **Precision** | 0.657  | 0.680  | 0.693  | 0.747  | 0.633  | **0.682** | ±0.039   |
+| **Recall**    | 0.765  | 0.800  | 0.718  | 0.765  | 0.738  | **0.757** | ±0.028   |
+| **F1-score**  | 0.707  | 0.735  | 0.705  | 0.756  | 0.681  | **0.717** | ±0.026   |
+
+
+These scores confirm that the model performs consistently and reliably across different splits, especially in terms of recall for the high-risk class — which is the most important metric in this health-related context.
 
 ---
 
@@ -157,8 +171,8 @@ The model **maximizes recall for the "high-risk" class (0.76)** to avoid missing
 ## Contact
 
 For any questions or suggestions, feel free to reach out:  
-📧 Aasiyah B. - aasiyah.bhewa@gmail.com
 📧 Dorothée B. – busierdorothee@gmail.com  
+📧 Aasiyah B.
 
 
 ## ❗ License
