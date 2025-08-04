@@ -134,9 +134,9 @@ L’algorithme de prédiction repose sur un **Random Forest Classifier**, sélec
 
 | Classe         | Précision | Rappel | F1-score | Support |
 |----------------|-----------|--------|----------|---------|
-| 0 (faible risque) | 0.75   | 0.74   | 0.74     | 87      |
-| 1 (haut risque)   | 0.75   | 0.77   | 0.76     | 90      |
-| **Accuracy globale** |         |        | **0.75** | 177     |
+| 0 (faible risque) | 0.74   | 0.70   | 0.72     | 87      |
+| 1 (haut risque)   | 0.73   | 0.77   | 0.75     | 90      |
+| **Accuracy globale** |         |        | **0.73** | 177     |
 
 Le modèle **maximise le rappel de la classe "à risque" (0.77)** pour ne pas rater de cas potentiellement graves.
 
