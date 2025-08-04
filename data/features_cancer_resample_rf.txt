@@ -7,6 +7,9 @@ Fruit2
 Vegetables2
 CutSkipMeals2
 DiffPayMedBills
+BirthSex_0.0
+BirthSex_1.0
+BirthSex_2.0
 Birthcountry_AsInd
 Birthcountry_Black
 Birthcountry_Chinese
@@ -19,8 +22,6 @@ Birthcountry_OthPacIsl
 Birthcountry_PuertoRican
 Birthcountry_Vietnamese
 Birthcountry_White
-BirthSex_1.0
-BirthSex_2.0
 BMI
 Age
 SleepWeekdayHr

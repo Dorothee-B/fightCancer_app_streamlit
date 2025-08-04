@@ -203,13 +203,16 @@ st.markdown("""
 
 
 raw_features_for_pipeline_input = [
-    'CutSkipMeals2', 'DiffPayMedBills', 'SmokeNow', 'BirthSex',
+    'SmokeNow', 'GeneralHealth', 'Nervous',
+    'IncomeRanges', 'Education', 'Fruit2', 'Vegetables2', 'CutSkipMeals2',
+    'DiffPayMedBills',
+    'BirthSex', 
+    'Birthcountry', 
+    'BMI', 'Age', 'SleepWeekdayHr', 'TimesSunburned', 
+    'TimesStrengthTraining', 'ChildrenInHH', 'TotalHousehold', 'Drink_nb_PerMonth',
     'MedConditions_Diabetes', 'MedConditions_HighBP', 'MedConditions_HeartCondition',
-    'MedConditions_LungDisease', 'MedConditions_Depression',
-    'GeneralHealth', 'HealthLimits_Pain', 'Nervous',
-    'IncomeRanges', 'Education', 'Birthcountry',
-    'Fruit2', 'Vegetables2', 'TimesStrengthTraining', 'Drink_nb_PerMonth',
-    'ChildrenInHH', 'TotalHousehold', 'TimesSunburned', 'BMI', 'Age', 'SleepWeekdayHr', 'FamilyEverHadCancer2'
+    'MedConditions_LungDisease', 'MedConditions_Depression', 'FamilyEverHadCancer2',
+    'HealthLimits_Pain'
 ]
 
 pipeline = None # Initialize pipeline to None

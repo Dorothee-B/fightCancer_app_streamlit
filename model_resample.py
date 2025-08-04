@@ -47,7 +47,9 @@ ordinal_categorical_vars = [
     'IncomeRanges', 'Education', 'Fruit2', 'Vegetables2', 'CutSkipMeals2',
     'DiffPayMedBills'   
 ]
-string_categorical_vars = ['Birthcountry', 'BirthSex']  # One hot encoder
+birthsex_var = ['BirthSex']  # categorial encoded [0,1,2] for ordinal_ohe (int64)
+
+string_categorical_vars = ['Birthcountry']  # string
 
 continuous_vars = ['BMI', 'Age', 
                    'SleepWeekdayHr', 'TimesSunburned', 'TimesStrengthTraining',
@@ -57,17 +59,37 @@ continuous_vars = ['BMI', 'Age',
 target = 'EverHadCancer'
 
 
-# Features used for training (before any transformation)
-# This order corresponds to the column order of the input DataFrame X
-
-features_raw = binary_vars + ordinal_categorical_vars + string_categorical_vars + continuous_vars
+features_raw = ordinal_categorical_vars + birthsex_var + string_categorical_vars + continuous_vars + binary_vars
 
 df_clean = balanced_df[features_raw + [target]].dropna()
+
 
 X = df_clean[features_raw]
 y = df_clean[target]
 
 
+# Mapping ordinal cat var (same as Streamlit app)
+smoke_categories = ["Jamais", "Quelques fois", "Tous les jours"]
+sante_categories = ["Faible", "Moyen", "Bon", "Très bon : On va danser ce soir ?", "Excellent : Je pète la forme !"]
+nervous_categories = ["Très faible, je suis relax", "Faible, quelques fois", "Modéré, sous pression la moitié du temps", "Élevé, stressé(e) tous les jours"]
+revenu_categories = [" 0 à 730€ mensuel", "730€ à 1099€ mensuel", "1100€ à 1469€ mensuel", "1470€ à 2569€ mensuel", "2570€ à 3669€ mensuel", "3670 à 5499€ mensuel", "5500€ à 7339€ mensuel", "7340€ à 14669€ mensuel", "14670€ mensuel et plus"]
+etude_categories = ["Primaire", "Collège / brevet", "Lycée / BAC", "Universitaire : BTS / DUT / filière technique", "Universitaire : Licence / Maîtrise / DEUG", "Universitaire : Master / DEA / DESS", "Doctorat ou plus"]
+fruit_veg_categories = ["0", "1/2 portion ou moins", "1/2 à 1 portion", "1 à 2 portions", "2 à 3 portions", "3 à 4 portions", "plus de 4"]
+diff_med_categories = ["Jamais", "Un peu", "Souvent"]
+cut_skip_categories = ["Jamais", "Un peu", "Souvent"]
+
+# Mapping
+ordinal_categories = [
+    smoke_categories,
+    sante_categories,
+    nervous_categories,
+    revenu_categories,
+    etude_categories,
+    fruit_veg_categories, # Fruit2
+    fruit_veg_categories, # Vegetables2
+    cut_skip_categories,
+    diff_med_categories
+]
 
 # Preprocessor with ColumnTransformer
 # The order of transformations here defines the output order of features in the pipeline
@@ -75,7 +97,8 @@ y = df_clean[target]
 
 
 transformers = [
-    ('ord', OrdinalEncoder(), ordinal_categorical_vars),
+    ('ord', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), ordinal_categorical_vars),
+    ('ohe_birthsex', OneHotEncoder(categories=[[0, 1, 2]], sparse_output=False, handle_unknown='ignore'), birthsex_var),
     ('ohe', OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore'), string_categorical_vars),
     ('scale', StandardScaler(), continuous_vars)
 ]
@@ -113,10 +136,9 @@ print("Accuracy:", accuracy_score(y_test, y_pred))
 print("\nClassification Report:\n", classification_report(y_test, y_pred))
 
 
-# --- Retrieving the final feature names after preprocessing to save them ---
-# The order is crucial and must match the ColumnTransformer order
-# SMOTE doesn't change the feature names, so this logic remains the same
-
+# Feature names extraction
+# This is important for the Streamlit app to know which features are used in the model
+# Note: The order of features in the final matrix must match the order expected by the model
 
 # 1. Features ordinales
 ord_features = ordinal_categorical_vars
@@ -126,15 +148,20 @@ ohe_transformer = pipeline.named_steps['preprocess'].named_transformers_['ohe']
 # get_feature_names_out donne les noms corrects comme 'Birthcountry_Mexican'
 ohe_features = list(ohe_transformer.get_feature_names_out(string_categorical_vars))
 
-# 3. Features continues
+# 3. Features OneHotEncoded pour BirthSex
+ohe_birthsex = pipeline.named_steps['preprocess'].named_transformers_['ohe_birthsex']
+ohe_birthsex_features = list(ohe_birthsex.get_feature_names_out(birthsex_var))
+
+# 4. Features continues
 cont_features = continuous_vars
 
-# 4. Binary Features (passed directly, 'remainder' of the ColumnTransformer)
+# 5. Binary Features (passed directly, 'remainder' of the ColumnTransformer)
 bin_features = binary_vars
 
 # # The order of the features in the final matrix (this order must be respected by the application)
 final_feature_names_for_model_input = (
     ord_features +
+    ohe_birthsex_features+
     ohe_features +
     cont_features +
     bin_features

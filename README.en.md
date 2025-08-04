@@ -135,9 +135,9 @@ These settings helped improve model accuracy and robustness.
 
 | Class             | Precision | Recall | F1-score | Support |
 |-------------------|-----------|--------|----------|---------|
-| 0 (low risk)      | 0.76      | 0.70   | 0.73     | 87      |
-| 1 (high risk)     | 0.73      | 0.79   | 0.76     | 90      |
-| **Overall Accuracy** |         |        | **0.75** | 177     |
+| 0 (low risk)      | 0.76      | 0.68   | 0.72     | 87      |
+| 1 (high risk)     | 0.72      | 0.79   | 0.75     | 90      |
+| **Overall Accuracy** |         |        | **0.73** | 177     |
 
 The model **maximizes recall for the "high-risk" class (0.79)** to avoid missing potentially serious cases.
 

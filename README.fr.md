@@ -142,9 +142,9 @@ Ces réglages ont permis d'améliorer la précision et la robustesse du modèle.
 
 | Classe         | Précision | Rappel | F1-score | Support |
 |----------------|-----------|--------|----------|---------|
-| 0 (faible risque) | 0.76   | 0.70   | 0.73     | 87      |
-| 1 (haut risque)   | 0.73   | 0.79   | 0.76     | 90      |
-| **Accuracy globale** |         |        | **0.75** | 177     |
+| 0 (faible risque) | 0.76   | 0.68   | 0.72     | 87      |
+| 1 (haut risque)   | 0.72   | 0.79   | 0.75     | 90      |
+| **Accuracy globale** |         |        | **0.73** | 177     |
 
 Le modèle **maximise le rappel de la classe "à risque" (0.79)** pour ne pas rater de cas potentiellement graves.
 
